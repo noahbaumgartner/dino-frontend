@@ -1,3 +1,9 @@
-export default function Settings() {
-  return <div>About</div>;
+import Title from "@/components/title";
+
+export default function Orders() {
+  return (
+    <div>
+      <Title>Bestellungen</Title>
+    </div>
+  );
 }

@@ -1,9 +1,9 @@
 import Title from "@/components/title";
 
-export default function Settings() {
+export default function Statistic() {
   return (
     <div>
-      <Title>Einstellungen</Title>
+      <Title>Statistik</Title>
     </div>
   );
 }

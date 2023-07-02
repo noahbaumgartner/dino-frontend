@@ -1,3 +1,9 @@
-export default function Settings() {
-  return <div>About</div>;
+import Title from "@/components/title";
+
+export default function ProductGroups() {
+  return (
+    <div>
+      <Title>Produkt-Gruppen</Title>
+    </div>
+  );
 }

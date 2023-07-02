@@ -1,7 +1,14 @@
-import Paragraph from "@/components/Paragraph";
-import Title from "@/components/title";
+"use client";
 
-export default function About() {
+import Button from "@/components/button";
+import Paragraph from "@/components/Paragraph";
+import SVG from "@/components/svg";
+import Title from "@/components/title";
+import { useRouter } from "next/navigation";
+
+export default function Admin() {
+  const router = useRouter();
+
   return (
     <div>
       <Title>Willkommen 🍴</Title>
@@ -17,6 +24,14 @@ export default function About() {
         wenigen Klicks kannst du neue Gerichte und Getränke hinzufügen, Preise
         aktualisieren, Bestellungen verwalten und vieles mehr.
       </Paragraph>
+      <Button
+        className="mt-12 drop-shadow"
+        square={true}
+        onClick={() => router.push("/admin/systemStatus")}
+      >
+        <SVG src="/systemStatus.svg" className="mr-2" />
+        Zum Systemstatus
+      </Button>
     </div>
   );
 }

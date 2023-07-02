@@ -1,3 +1,9 @@
-export default function Settings() {
-  return <div>About</div>;
+import Title from "@/components/title";
+
+export default function Spaces() {
+  return (
+    <div>
+      <Title>Bereiche</Title>
+    </div>
+  );
 }

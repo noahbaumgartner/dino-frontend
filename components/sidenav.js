@@ -1,8 +1,7 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import Button from "./button";
+import SVG from "./svg";
 
 function Header({ closeOnClick }) {
   return (
@@ -10,12 +9,9 @@ function Header({ closeOnClick }) {
       <span className="font-bold flex-1 items-center py-2 text-gray-900">
         Dino Admin
       </span>
-      <button
-        onClick={closeOnClick}
-        className="w-10 flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 border-2 focus:outline focus:outline-2 focus:outline-gray-900 focus:outline-offset-2"
-      >
-        <Image src="/close.svg" width={20} height={20} />
-      </button>
+      <Button onClick={closeOnClick}>
+        <SVG src="/close.svg" />
+      </Button>
     </li>
   );
 }
@@ -32,7 +28,7 @@ function Item({ onClick, link, text, svg }) {
         href={link}
         className="flex items-center p-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100"
       >
-        <Image src={svg} width={20} height={20} />
+        <SVG src={svg} />
         <span className="ml-3">{text}</span>
       </Link>
     </li>
@@ -97,9 +93,9 @@ export default function Sidenav() {
             />
             <Item
               onClick={toggleVisibility}
-              link="/admin/statistics"
+              link="/admin/statistic"
               text="Statistik"
-              svg="/statistics.svg"
+              svg="/statistic.svg"
             />
             <Divider />
             <Title title="Weiteres" />
@@ -119,12 +115,12 @@ export default function Sidenav() {
         </div>
       </aside>
 
-      <button
-        onClick={() => setIsVisible(!isVisible)}
-        className="drop-shadow fixed top-4 left-4 z-10 flex items-center p-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100 border-2 focus:outline focus:outline-2 focus:outline-gray-900 focus:outline-offset-2"
+      <Button
+        onClick={toggleVisibility}
+        className="drop-shadow fixed top-4 left-4"
       >
-        <Image src="/menu.svg" width={20} height={20} />
-      </button>
+        <SVG src="/menu.svg" />
+      </Button>
     </div>
   );
 }
