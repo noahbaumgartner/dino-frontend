@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 function Header({ closeOnClick }) {
   return (
     <li className="flex">
       <span className="font-bold flex-1 items-center py-2 text-gray-900">
-        Admin-Menu
+        Dino Admin
       </span>
       <button
         onClick={closeOnClick}
@@ -23,16 +24,17 @@ function Title({ title }) {
   return <li className="text-xs text-gray-400 py-2">{title}</li>;
 }
 
-function Item({ text, svg }) {
+function Item({ onClick, link, text, svg }) {
   return (
     <li>
-      <a
-        href="#"
+      <Link
+        onClick={onClick}
+        href={link}
         className="flex items-center p-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100"
       >
         <Image src={svg} width={20} height={20} />
         <span className="ml-3">{text}</span>
-      </a>
+      </Link>
     </li>
   );
 }
@@ -43,35 +45,76 @@ function Divider() {
 
 export default function Sidenav() {
   const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
     <div>
       <aside
         id="sidebar"
-        className={`fixed top-0 left-0 z-20 sm:w-72 w-full h-screen duration-200 drop-shadow transition-transform -translate-x-full ${
+        className={`fixed top-0 left-0 z-20 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
           isVisible ? "translate-x-0" : ""
         }`}
       >
-        <div className="h-full p-4 overflow-y-auto bg-white">
+        <div className="h-full p-4 overflow-y-auto">
           <ul className="space-y-2 font-medium">
-            <Header closeOnClick={() => setIsVisible(!isVisible)} />
+            <Header closeOnClick={toggleVisibility} />
             <Title title="Allgemein" />
-            <Item text="Home" svg="/home.svg" />
-            <Item text="Systemstatus" svg="/systemState.svg" />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/"
+              text="Home"
+              svg="/home.svg"
+            />
             <Divider />
             <Title title="Produkt" />
-            <Item text="Produkt-Gruppen" svg="/productGroup.svg" />
-            <Item text="Produkte" svg="/product.svg" />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/productGroups"
+              text="Produkt-Gruppen"
+              svg="/productGroup.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/products"
+              text="Produkte"
+              svg="/product.svg"
+            />
             <Divider />
             <Title title="Darstellung" />
-            <Item text="Bereiche" svg="/space.svg" />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/spaces"
+              text="Bereiche"
+              svg="/space.svg"
+            />
             <Divider />
             <Title title="Daten" />
-            <Item text="Bestellungen" svg="/order.svg" />
-            <Item text="Statistik" svg="/statistics.svg" />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/orders"
+              text="Bestellungen"
+              svg="/order.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/statistics"
+              text="Statistik"
+              svg="/statistics.svg"
+            />
             <Divider />
             <Title title="Weiteres" />
-            <Item text="Einstellungen" svg="/settings.svg" />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Systemstatus"
+              svg="/systemStatus.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/settings"
+              text="Einstellungen"
+              svg="/settings.svg"
+            />
           </ul>
         </div>
       </aside>

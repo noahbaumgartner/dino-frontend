@@ -4,7 +4,9 @@ export default function AdminLayout({ children }) {
   return (
     <div>
       <Sidenav />
-      <main className="ml-64 min-h-screen">{children}</main>
+      <main className="min-h-full md:min-h-screen w-full container mx-auto my-20 md:my-10">
+        {children}
+      </main>
     </div>
   );
 }
