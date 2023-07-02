@@ -1,3 +1,3 @@
-# Dine Direct Frontend
+# Dino Frontend
 
-Dine Direct is a simple client/server based ordering system for drinks and food.
+Dino is a simple client/server based ordering system for drinks and food.
