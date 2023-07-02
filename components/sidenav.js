@@ -9,7 +9,7 @@ function Header({ closeOnClick }) {
       <span className="font-bold flex-1 items-center py-2 text-gray-900">
         Dino Admin
       </span>
-      <Button onClick={closeOnClick}>
+      <Button onClick={closeOnClick} square={true}>
         <SVG src="/close.svg" />
       </Button>
     </li>
@@ -118,6 +118,7 @@ export default function Sidenav() {
       <Button
         onClick={toggleVisibility}
         className="drop-shadow fixed top-4 left-4"
+        square={true}
       >
         <SVG src="/menu.svg" />
       </Button>

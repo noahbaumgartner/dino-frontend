@@ -26,7 +26,6 @@ export default function Admin() {
       </Paragraph>
       <Button
         className="mt-12 drop-shadow"
-        square={true}
         onClick={() => router.push("/admin/systemStatus")}
       >
         <SVG src="/systemStatus.svg" className="mr-2" />
