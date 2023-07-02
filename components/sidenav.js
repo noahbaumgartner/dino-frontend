@@ -55,7 +55,8 @@ export default function Sidenav() {
         <div className="h-full p-4 overflow-y-auto bg-white">
           <ul className="space-y-2 font-medium">
             <Header closeOnClick={() => setIsVisible(!isVisible)} />
-            <Title title="System" />
+            <Title title="Allgemein" />
+            <Item text="Home" svg="/home.svg" />
             <Item text="Systemstatus" svg="/systemState.svg" />
             <Divider />
             <Title title="Produkt" />
