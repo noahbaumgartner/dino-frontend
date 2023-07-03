@@ -1,47 +1,65 @@
 import Button from "@/components/button";
 import SVG from "@/components/svg";
+import Table from "@/components/table";
+import TableBody from "@/components/tablebody";
+import TableBodyField from "@/components/tablebodyfield";
+import TableHead from "@/components/tablehead";
+import TableHeadField from "@/components/tableheadfield";
+import TableRow from "@/components/tablerow";
 import Title from "@/components/title";
+
+function ProductGroupTable() {
+  return (
+    <Table>
+      <TableHead>
+        <TableHeadField className="text-left" minWidth="200px">
+          Produkt-Gruppe
+        </TableHeadField>
+        <TableHeadField className="text-right" minWidth="350px">
+          Aktionen
+        </TableHeadField>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableBodyField>Speisen</TableBodyField>
+          <TableBodyField>
+            <Button className="float-right ml-2" border={false}>
+              <SVG src="/biggerThan.svg" className="mr-2" />
+              Zur Gruppe
+            </Button>
+            <Button className="float-right ml-2" border={false}>
+              <SVG src="/delete.svg" className="mr-2" />
+              Löschen
+            </Button>
+          </TableBodyField>
+        </TableRow>
+        <TableRow>
+          <TableBodyField>Alkoholische Getränke</TableBodyField>
+          <TableBodyField>
+            <Button className="float-right ml-2" border={false}>
+              <SVG src="/biggerThan.svg" className="mr-2" />
+              Zur Gruppe
+            </Button>
+            <Button className="float-right ml-2" border={false}>
+              <SVG src="/delete.svg" className="mr-2" />
+              Löschen
+            </Button>
+          </TableBodyField>
+        </TableRow>
+      </TableBody>
+    </Table>
+  );
+}
 
 export default function ProductGroups() {
   return (
     <div>
       <Title>Produkt-Gruppen</Title>
-      <table className="table-auto w-full border-none drop-shadow rounded-lg">
-        <thead className="bg-gray-100 border-b-2 border-gray-200 text-left">
-          <tr>
-            <th className="p-3 rounded-tl-lg">Produkt-Gruppe</th>
-            <th className="p-3 rounded-tr-lg text-right">Aktionen</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          <tr>
-            <td className="px-3 pt-3">Speisen</td>
-            <td className="px-3 pt-3">
-              <Button className="float-right ml-2">
-                <SVG src="/biggerThan.svg" className="mr-2" />
-                Zur Gruppe
-              </Button>
-              <Button className="float-right ml-2">
-                <SVG src="/delete.svg" className="mr-2" />
-                Löschen
-              </Button>
-            </td>
-          </tr>
-          <tr>
-            <td className="p-3 rounded-bl-lg">Alkoholische Getränke</td>
-            <td className="p-3 rounded-br-lg">
-              <Button className="float-right ml-2">
-                <SVG src="/biggerThan.svg" className="mr-2" />
-                Zur Gruppe
-              </Button>
-              <Button className="float-right ml-2">
-                <SVG src="/delete.svg" className="mr-2" />
-                Löschen
-              </Button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <ProductGroupTable />
+      <Button className="mt-4 drop-shadow">
+        <SVG src="/add.svg" className="mr-2" />
+        Gruppe hinzufügen
+      </Button>
     </div>
   );
 }

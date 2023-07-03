@@ -7,7 +7,7 @@ function Header({ closeOnClick }) {
   return (
     <li className="flex">
       <span className="font-bold flex-1 items-center py-2 text-gray-900">
-        Dino Admin
+        🦖 Dino Admin
       </span>
       <Button onClick={closeOnClick} square={true}>
         <SVG src="/close.svg" />
