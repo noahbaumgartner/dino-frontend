@@ -27,18 +27,16 @@ export default function SingleProductGroup({ params }) {
         <Loader />
       ) : (
         <div>
-          <Title>
-            Produkt-Gruppe: {productGroup.id} {productGroup.name}
-          </Title>
-          <Button
-            onClick={() => router.push("/admin/productGroups")}
-            className="fixed left-4 bottom-4 drop-shadow"
-          >
-            <SVG src="/back.svg" className="mr-2" />
-            Zurück
-          </Button>
+          <Title>Produkt-Gruppe: {productGroup.name}</Title>
         </div>
       )}
+      <Button
+        onClick={() => router.push("/admin/productGroups")}
+        className="fixed left-4 bottom-4 drop-shadow z-20"
+      >
+        <SVG src="/back.svg" className="mr-2" />
+        Zurück
+      </Button>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import {
   getProductGroups,
+  createProductGroup,
   deleteProductGroup,
 } from "@/api/services/productGroupService";
 import Button from "@/components/button";
@@ -15,6 +16,8 @@ import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
+import Popup from "@/components/paragraph copy";
+import Input from "@/components/input";
 
 function ProductGroupTable({ items, router, deleteItem }) {
   return (
@@ -58,6 +61,7 @@ function ProductGroupTable({ items, router, deleteItem }) {
 
 export default function ProductGroups() {
   const [items, setItems] = useState(false);
+  const [productGroup, setProductGroup] = useState("");
   const router = useRouter();
 
   const loadProductGroups = () => {
@@ -69,10 +73,19 @@ export default function ProductGroups() {
         console.log(err);
       });
   };
+  const addItem = (name) => {
+    if (name) {
+      createProductGroup(name).then(() => {
+        setProductGroup("");
+        loadProductGroups();
+      });
+    }
+  };
   const deleteItem = (event, id) => {
     event.stopPropagation();
-    deleteProductGroup(id);
-    loadProductGroups();
+    deleteProductGroup(id).then(() => {
+      loadProductGroups();
+    });
   };
 
   useEffect(() => {
@@ -86,15 +99,28 @@ export default function ProductGroups() {
       ) : (
         <div>
           <Title>Produkt-Gruppen</Title>
+          <div className="mb-4 md:flex">
+            <Input
+              type="text"
+              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
+              value={productGroup}
+              onChange={(value) => {
+                setProductGroup(value.currentTarget.value);
+              }}
+            />
+            <Button
+              onClick={() => addItem(productGroup)}
+              className="drop-shadow"
+            >
+              <SVG src="/add.svg" className="mr-2" />
+              Gruppe hinzufügen
+            </Button>
+          </div>
           <ProductGroupTable
             items={items}
             router={router}
             deleteItem={deleteItem}
           />
-          <Button className="mt-4 drop-shadow">
-            <SVG src="/add.svg" className="mr-2" />
-            Gruppe hinzufügen
-          </Button>
         </div>
       )}
     </div>
