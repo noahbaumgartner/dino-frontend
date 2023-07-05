@@ -47,7 +47,7 @@ export default function Sidenav() {
     <div>
       <aside
         id="sidebar"
-        className={`fixed top-0 left-0 z-20 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
+        className={`fixed top-0 left-0 z-30 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
           isVisible ? "translate-x-0" : ""
         }`}
       >
@@ -117,7 +117,7 @@ export default function Sidenav() {
 
       <Button
         onClick={toggleVisibility}
-        className="drop-shadow fixed top-4 left-4"
+        className="drop-shadow fixed top-4 left-4 z-20"
         square={true}
       >
         <SVG src="/menu.svg" />
