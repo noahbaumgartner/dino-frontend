@@ -1,5 +1,7 @@
 "use client";
 import {
+  createAssignmentForProductGroup,
+  deleteAssignmentForProductGroup,
   getAssignmentsForProductGroup,
   getProductGroup,
   putProductGroup,
@@ -35,35 +37,37 @@ function ProductAssignmentTable({ products, assignItem, unassignItem }) {
       </TableHead>
       <TableBody>
         {products &&
-          products.map((product) => (
-            <TableRow key={product.id}>
-              <TableBodyField className="text-center">
-                {product.id}
-              </TableBodyField>
-              <TableBodyField>{product.name}</TableBodyField>
-              <TableBodyField>
-                {product.assigned ? (
-                  <Button
-                    className="float-right ml-2 z-10"
-                    border={false}
-                    onClick={() => assignItem(product.id)}
-                  >
-                    <SVG src="/x-mark.svg" className="mr-2" />
-                    Zuweisung entfernen
-                  </Button>
-                ) : (
-                  <Button
-                    className="float-right ml-2 z-10"
-                    border={false}
-                    onClick={() => unassignItem(product.id)}
-                  >
-                    <SVG src="/check.svg" className="mr-2" />
-                    Zuweisen
-                  </Button>
-                )}
-              </TableBodyField>
-            </TableRow>
-          ))}
+          products.map((product) =>
+            !product.hidden ? (
+              <TableRow key={product.id}>
+                <TableBodyField className="text-center">
+                  {product.id}
+                </TableBodyField>
+                <TableBodyField>{product.name}</TableBodyField>
+                <TableBodyField>
+                  {product.assigned ? (
+                    <Button
+                      className="float-right ml-2 z-10"
+                      border={false}
+                      onClick={() => unassignItem(product.id)}
+                    >
+                      <SVG src="/x-mark.svg" className="mr-2" />
+                      Zuweisung entfernen
+                    </Button>
+                  ) : (
+                    <Button
+                      className="float-right ml-2 z-10"
+                      border={false}
+                      onClick={() => assignItem(product.id)}
+                    >
+                      <SVG src="/check.svg" className="mr-2" />
+                      Zuweisen
+                    </Button>
+                  )}
+                </TableBodyField>
+              </TableRow>
+            ) : null
+          )}
       </TableBody>
     </Table>
   );
@@ -73,6 +77,7 @@ export default function SingleProductGroup({ params }) {
   const [productGroup, setProductGroup] = useState(false);
   const [products, setProducts] = useState(false);
   const [productGroupName, setProductGroupName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
   const loadProductGroup = () => {
@@ -91,8 +96,7 @@ export default function SingleProductGroup({ params }) {
         products.forEach((product) => {
           if (assignments.includes(product.id)) product.setAssigned(true);
         });
-        console.log(products);
-        setProducts(products);
+        setProducts(searchAssignments(searchTerm, products));
       });
     });
   };
@@ -103,8 +107,24 @@ export default function SingleProductGroup({ params }) {
       });
     }
   };
-  const assignItem = (id) => {};
-  const unassignItem = (id) => {};
+  const assignItem = (id) => {
+    createAssignmentForProductGroup(params.id, id).then(() => {
+      loadProductAssignments();
+    });
+  };
+  const unassignItem = (id) => {
+    deleteAssignmentForProductGroup(params.id, id).then(() => {
+      loadProductAssignments();
+    });
+  };
+  const searchAssignments = (searchTerm, products) => {
+    products.forEach((product) => {
+      if (!searchTerm || product.name.includes(searchTerm))
+        product.setHidden(false);
+      else product.setHidden(true);
+    });
+    return products;
+  };
 
   useEffect(() => {
     loadProductGroup();
@@ -139,9 +159,12 @@ export default function SingleProductGroup({ params }) {
             type="text"
             placeholder="Suchen"
             className="block md:flex-1 mb-4 w-full"
-            value={productGroupName}
+            value={searchTerm}
             onChange={(value) => {
-              setProductGroupName(value.currentTarget.value);
+              setSearchTerm(value.currentTarget.value);
+              setProducts(
+                searchAssignments(value.currentTarget.value, products)
+              );
             }}
           />
           <ProductAssignmentTable

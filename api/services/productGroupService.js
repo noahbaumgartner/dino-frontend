@@ -79,3 +79,32 @@ export const getAssignmentsForProductGroup = async (id) => {
     throw error;
   }
 };
+
+export const createAssignmentForProductGroup = async (id, productId) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/productGroups/${id}/productAssignments`,
+      {
+        productId: productId,
+      }
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const deleteAssignmentForProductGroup = async (id, productId) => {
+  try {
+    const response = await axios.delete(
+      `${API_BASE_URL}/productGroups/${id}/productAssignments/${productId}`
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

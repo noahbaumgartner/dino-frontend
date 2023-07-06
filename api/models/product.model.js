@@ -4,9 +4,14 @@ export default class Product {
     this.name = name;
     this.price = price;
     this.assigned = false;
+    this.hidden = false;
   }
 
   setAssigned(assigned) {
-    this.assigned = true;
+    this.assigned = assigned;
+  }
+
+  setHidden(hidden) {
+    this.hidden = hidden;
   }
 }
