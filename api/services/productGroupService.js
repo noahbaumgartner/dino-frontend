@@ -41,6 +41,19 @@ export const createProductGroup = async (name) => {
   }
 };
 
+export const putProductGroup = async (id, name) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/productGroups/${id}`, {
+      name: name,
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
 export const deleteProductGroup = async (id) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/productGroups/${id}`);

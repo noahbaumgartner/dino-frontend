@@ -16,7 +16,6 @@ import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
-import Popup from "@/components/paragraph copy";
 import Input from "@/components/input";
 
 function ProductGroupTable({ items, router, deleteItem }) {

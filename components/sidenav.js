@@ -10,14 +10,14 @@ function Header({ closeOnClick }) {
         🦖 Dino Admin
       </span>
       <Button onClick={closeOnClick} square={true}>
-        <SVG src="/close.svg" />
+        <SVG src="/x-mark.svg" />
       </Button>
     </li>
   );
 }
 
 function Title({ title }) {
-  return <li className="text-xs text-gray-400 py-2">{title}</li>;
+  return <li className="text-xs text-gray-400">{title}</li>;
 }
 
 function Item({ onClick, link, text, svg }) {
@@ -36,7 +36,7 @@ function Item({ onClick, link, text, svg }) {
 }
 
 function Divider() {
-  return <li className="border-b-2 border-gray-200 my-2"></li>;
+  return <li className="border-b-2 border-gray-200 mt-2"></li>;
 }
 
 export default function Sidenav() {
@@ -96,6 +96,20 @@ export default function Sidenav() {
               link="/admin/statistic"
               text="Statistik"
               svg="/statistic.svg"
+            />
+            <Divider />
+            <Title title="Geräte" />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Clients"
+              svg="/client.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Drucker"
+              svg="/printer.svg"
             />
             <Divider />
             <Title title="Weiteres" />
