@@ -12,9 +12,15 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
 import Input from "@/components/input";
-import { getProduct, putProduct } from "@/api/services/productService";
+import {
+  createModifierForProduct,
+  deleteModifierForProduct,
+  getModifiersForProduct,
+  getProduct,
+  putProduct,
+} from "@/api/services/productService";
 
-function ProductAssignmentTable({ items }) {
+function ModifierTable({ modifiers, deleteItem }) {
   return (
     <Table>
       <TableHead>
@@ -22,46 +28,38 @@ function ProductAssignmentTable({ items }) {
           #
         </TableHeadField>
         <TableHeadField className="text-left" minWidth="200px">
-          Produkt
+          Modifier
+        </TableHeadField>
+        <TableHeadField className="text-right" minWidth="350px">
+          Preis-Differenz
         </TableHeadField>
         <TableHeadField className="text-right" minWidth="350px">
           Aktionen
         </TableHeadField>
       </TableHead>
       <TableBody>
-        {items &&
-          items.map((item) => (
-            <TableRow key={item.id}>
-              <TableBodyField className="text-center">{item.id}</TableBodyField>
-              <TableBodyField>{item.name}</TableBodyField>
+        {modifiers &&
+          modifiers.map((modifier) => (
+            <TableRow key={modifier.id}>
+              <TableBodyField className="text-center">
+                {modifier.id}
+              </TableBodyField>
+              <TableBodyField>{modifier.name}</TableBodyField>
+              <TableBodyField className="text-right">
+                {modifier.priceDiff} CHF
+              </TableBodyField>
               <TableBodyField>
                 <Button
                   className="float-right ml-2 z-10"
                   border={false}
-                  onClick={(event) => deleteItem(event, item.id)}
+                  onClick={(event) => deleteItem(event, modifier.id)}
                 >
-                  <SVG src="/x-mark.svg" className="mr-2" />
-                  Zuweisung entfernen
+                  <SVG src="/delete.svg" className="mr-2" />
+                  Löschen
                 </Button>
               </TableBodyField>
             </TableRow>
           ))}
-        <TableRow
-          onClick={() => router.push(`/admin/productGroups/${item.id}`)}
-        >
-          <TableBodyField className="text-center">3</TableBodyField>
-          <TableBodyField>Hello</TableBodyField>
-          <TableBodyField>
-            <Button
-              className="float-right ml-2 z-10"
-              border={false}
-              onClick={(event) => deleteItem(event, 1)}
-            >
-              <SVG src="/check.svg" className="mr-2" />
-              Zuweisen
-            </Button>
-          </TableBodyField>
-        </TableRow>
       </TableBody>
     </Table>
   );
@@ -71,6 +69,9 @@ export default function SingleProductGroup({ params }) {
   const [product, setProduct] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
+  const [modifierName, setModifierName] = useState("");
+  const [modifierPriceDiff, setModifierPriceDiff] = useState(0);
+  const [modifiers, setModifiers] = useState(false);
   const router = useRouter();
 
   const loadProduct = () => {
@@ -84,16 +85,37 @@ export default function SingleProductGroup({ params }) {
         console.log(err);
       });
   };
-  const change = (name, price) => {
-    if (name) {
+  const changeProduct = (name, price) => {
+    if (name && price) {
       putProduct(params.id, name, price).then(() => {
         loadProduct();
       });
     }
   };
+  const loadModifiers = () => {
+    getModifiersForProduct(params.id).then((response) => {
+      setModifiers(response);
+    });
+  };
+  const addModifier = (name, priceDiff) => {
+    if (name) {
+      createModifierForProduct(name, priceDiff, params.id).then(() => {
+        loadModifiers();
+        setModifierName("");
+        setModifierPriceDiff(0);
+      });
+    }
+  };
+  const deleteModifier = (event, id) => {
+    event.stopPropagation();
+    deleteModifierForProduct(id, params.id).then(() => {
+      loadModifiers();
+    });
+  };
 
   useEffect(() => {
     loadProduct();
+    loadModifiers();
   }, []);
 
   return (
@@ -123,13 +145,39 @@ export default function SingleProductGroup({ params }) {
               }}
             />
             <Button
-              onClick={() => change(productName, productPrice)}
+              onClick={() => changeProduct(productName, productPrice)}
               className="drop-shadow"
             >
               <SVG src="/change.svg" className="mr-2" />
               Ändern
             </Button>
           </div>
+          <div className="mb-4 md:flex">
+            <Input
+              type="text"
+              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
+              value={modifierName}
+              onChange={(value) => {
+                setModifierName(value.currentTarget.value);
+              }}
+            />
+            <Input
+              type="number"
+              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
+              value={modifierPriceDiff}
+              onChange={(value) => {
+                setModifierPriceDiff(value.currentTarget.value);
+              }}
+            />
+            <Button
+              onClick={() => addModifier(modifierName, modifierPriceDiff)}
+              className="drop-shadow"
+            >
+              <SVG src="/add.svg" className="mr-2" />
+              Modifier hinzufügen
+            </Button>
+          </div>
+          <ModifierTable modifiers={modifiers} deleteItem={deleteModifier} />
         </div>
       )}
       <Button

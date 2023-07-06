@@ -1,4 +1,4 @@
-import ProductAssignment from "../models/productAssignment.model";
+import ProductAssignment from "../models/modifier.model";
 import ProductGroup from "../models/productGroup.model";
 
 const { default: axios } = require("axios");
