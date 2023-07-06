@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/components/button";
-import SVG from "@/components/svg";
+import Loader from "@/components/loader";
 import Table from "@/components/table";
 import TableBody from "@/components/tablebody";
 import TableBodyField from "@/components/tablebodyfield";
@@ -10,15 +10,11 @@ import TableRow from "@/components/tablerow";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Loader from "@/components/loader";
-import {
-  createProduct,
-  deleteProduct,
-  getProducts,
-} from "@/api/services/productService";
+import SVG from "@/components/svg";
 import Input from "@/components/input";
+import { getProduct, putProduct } from "@/api/services/productService";
 
-function ProductTable({ items, router, deleteItem }) {
+function ProductAssignmentTable({ items }) {
   return (
     <Table>
       <TableHead>
@@ -29,83 +25,86 @@ function ProductTable({ items, router, deleteItem }) {
           Produkt
         </TableHeadField>
         <TableHeadField className="text-right" minWidth="350px">
-          Preis
-        </TableHeadField>
-        <TableHeadField className="text-right" minWidth="400px">
           Aktionen
         </TableHeadField>
       </TableHead>
       <TableBody>
         {items &&
           items.map((item) => (
-            <TableRow
-              onClick={() => router.push(`/admin/products/${item.id}`)}
-              key={item.id}
-            >
+            <TableRow key={item.id}>
               <TableBodyField className="text-center">{item.id}</TableBodyField>
               <TableBodyField>{item.name}</TableBodyField>
-              <TableBodyField className="text-right">
-                {item.price.toFixed(2)} CHF
-              </TableBodyField>
               <TableBodyField>
                 <Button
                   className="float-right ml-2 z-10"
                   border={false}
                   onClick={(event) => deleteItem(event, item.id)}
                 >
-                  <SVG src="/delete.svg" className="mr-2" />
-                  Löschen
+                  <SVG src="/x-mark.svg" className="mr-2" />
+                  Zuweisung entfernen
                 </Button>
               </TableBodyField>
             </TableRow>
           ))}
+        <TableRow
+          onClick={() => router.push(`/admin/productGroups/${item.id}`)}
+        >
+          <TableBodyField className="text-center">3</TableBodyField>
+          <TableBodyField>Hello</TableBodyField>
+          <TableBodyField>
+            <Button
+              className="float-right ml-2 z-10"
+              border={false}
+              onClick={(event) => deleteItem(event, 1)}
+            >
+              <SVG src="/check.svg" className="mr-2" />
+              Zuweisen
+            </Button>
+          </TableBodyField>
+        </TableRow>
       </TableBody>
     </Table>
   );
 }
 
-export default function Products() {
-  const [items, setItems] = useState(false);
+export default function SingleProductGroup({ params }) {
+  const [product, setProduct] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
   const router = useRouter();
 
-  const loadProducts = () => {
-    getProducts()
+  const loadProduct = () => {
+    getProduct(params.id)
       .then((response) => {
-        setItems(response);
+        setProduct(response);
+        setProductName(response.name);
+        setProductPrice(response.price);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  const addItem = (name, price) => {
-    if (name && price) {
-      createProduct(name, price).then(() => {
-        setProductName("");
-        setProductPrice(0);
-        loadProducts();
+  const change = (name, price) => {
+    if (name) {
+      putProduct(params.id, name, price).then(() => {
+        loadProduct();
       });
     }
   };
-  const deleteItem = (event, id) => {
-    event.stopPropagation();
-    deleteProduct(id).then(() => {
-      loadProducts();
-    });
-  };
 
   useEffect(() => {
-    loadProducts();
+    loadProduct();
   }, []);
 
   return (
     <div>
-      {!items ? (
+      {!product ? (
         <Loader />
       ) : (
         <div>
-          <Title>Produkte</Title>
+          <Title>
+            Produkt: {product.name} - {product.price.toFixed(2)} CHF
+          </Title>
           <div className="mb-4 md:flex">
             <Input
               type="text"
@@ -124,16 +123,22 @@ export default function Products() {
               }}
             />
             <Button
-              onClick={() => addItem(productName, productPrice)}
+              onClick={() => change(productName, productPrice)}
               className="drop-shadow"
             >
-              <SVG src="/add.svg" className="mr-2" />
-              Produkt hinzufügen
+              <SVG src="/change.svg" className="mr-2" />
+              Ändern
             </Button>
           </div>
-          <ProductTable items={items} router={router} deleteItem={deleteItem} />
         </div>
       )}
+      <Button
+        onClick={() => router.push("/admin/products")}
+        className="fixed left-4 bottom-4 drop-shadow z-20"
+      >
+        <SVG src="/back.svg" className="mr-2" />
+        Zurück
+      </Button>
     </div>
   );
 }
