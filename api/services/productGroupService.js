@@ -1,3 +1,4 @@
+import ProductAssignment from "../models/productAssignment.model";
 import ProductGroup from "../models/productGroup.model";
 
 const { default: axios } = require("axios");
@@ -59,6 +60,20 @@ export const deleteProductGroup = async (id) => {
     const response = await axios.delete(`${API_BASE_URL}/productGroups/${id}`);
 
     return true;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const getAssignmentsForProductGroup = async (id) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/productGroups/${id}/productAssignments`
+    );
+    const mappedData = response.data.map((element) => element.ProductId);
+
+    return mappedData;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;

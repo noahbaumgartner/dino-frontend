@@ -1,5 +1,6 @@
 "use client";
 import {
+  getAssignmentsForProductGroup,
   getProductGroup,
   putProductGroup,
 } from "@/api/services/productGroupService";
@@ -16,9 +17,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
 import Input from "@/components/input";
-import ProductGroup from "@/api/models/productGroup.model";
+import { getProducts } from "@/api/services/productService";
 
-function ProductAssignmentTable({ items }) {
+function ProductAssignmentTable({ products, assignItem, unassignItem }) {
   return (
     <Table>
       <TableHead>
@@ -33,39 +34,36 @@ function ProductAssignmentTable({ items }) {
         </TableHeadField>
       </TableHead>
       <TableBody>
-        {items &&
-          items.map((item) => (
-            <TableRow key={item.id}>
-              <TableBodyField className="text-center">{item.id}</TableBodyField>
-              <TableBodyField>{item.name}</TableBodyField>
+        {products &&
+          products.map((product) => (
+            <TableRow key={product.id}>
+              <TableBodyField className="text-center">
+                {product.id}
+              </TableBodyField>
+              <TableBodyField>{product.name}</TableBodyField>
               <TableBodyField>
-                <Button
-                  className="float-right ml-2 z-10"
-                  border={false}
-                  onClick={(event) => deleteItem(event, item.id)}
-                >
-                  <SVG src="/x-mark.svg" className="mr-2" />
-                  Zuweisung entfernen
-                </Button>
+                {product.assigned ? (
+                  <Button
+                    className="float-right ml-2 z-10"
+                    border={false}
+                    onClick={() => assignItem(product.id)}
+                  >
+                    <SVG src="/x-mark.svg" className="mr-2" />
+                    Zuweisung entfernen
+                  </Button>
+                ) : (
+                  <Button
+                    className="float-right ml-2 z-10"
+                    border={false}
+                    onClick={() => unassignItem(product.id)}
+                  >
+                    <SVG src="/check.svg" className="mr-2" />
+                    Zuweisen
+                  </Button>
+                )}
               </TableBodyField>
             </TableRow>
           ))}
-        <TableRow
-          onClick={() => router.push(`/admin/productGroups/${item.id}`)}
-        >
-          <TableBodyField className="text-center">3</TableBodyField>
-          <TableBodyField>Hello</TableBodyField>
-          <TableBodyField>
-            <Button
-              className="float-right ml-2 z-10"
-              border={false}
-              onClick={(event) => deleteItem(event, 1)}
-            >
-              <SVG src="/check.svg" className="mr-2" />
-              Zuweisen
-            </Button>
-          </TableBodyField>
-        </TableRow>
       </TableBody>
     </Table>
   );
@@ -73,6 +71,7 @@ function ProductAssignmentTable({ items }) {
 
 export default function SingleProductGroup({ params }) {
   const [productGroup, setProductGroup] = useState(false);
+  const [products, setProducts] = useState(false);
   const [productGroupName, setProductGroupName] = useState("");
   const router = useRouter();
 
@@ -86,6 +85,17 @@ export default function SingleProductGroup({ params }) {
         console.log(err);
       });
   };
+  const loadProductAssignments = () => {
+    getProducts().then((products) => {
+      getAssignmentsForProductGroup(params.id).then((assignments) => {
+        products.forEach((product) => {
+          if (assignments.includes(product.id)) product.setAssigned(true);
+        });
+        console.log(products);
+        setProducts(products);
+      });
+    });
+  };
   const changeName = (name) => {
     if (name) {
       putProductGroup(params.id, name).then(() => {
@@ -93,22 +103,13 @@ export default function SingleProductGroup({ params }) {
       });
     }
   };
+  const assignItem = (id) => {};
+  const unassignItem = (id) => {};
 
   useEffect(() => {
     loadProductGroup();
+    loadProductAssignments();
   }, []);
-
-  let items = [new ProductGroup(1, "Test"), new ProductGroup(2, "Test 2")];
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
-  items.push(new ProductGroup(2, "Test"));
 
   return (
     <div>
@@ -134,9 +135,22 @@ export default function SingleProductGroup({ params }) {
               Ändern
             </Button>
           </div>
+          <Input
+            type="text"
+            placeholder="Suchen"
+            className="block md:flex-1 mb-4 w-full"
+            value={productGroupName}
+            onChange={(value) => {
+              setProductGroupName(value.currentTarget.value);
+            }}
+          />
+          <ProductAssignmentTable
+            products={products}
+            assignItem={assignItem}
+            unassignItem={unassignItem}
+          />
         </div>
       )}
-      <ProductAssignmentTable items={items} />
       <Button
         onClick={() => router.push("/admin/productGroups")}
         className="fixed left-4 bottom-4 drop-shadow z-20"
