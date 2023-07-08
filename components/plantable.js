@@ -55,6 +55,7 @@ export default function PlanTable({
   selector,
   selectorIndex,
   deleteSelected,
+  setDividerForSelected,
 }) {
   return (
     <div>
@@ -72,6 +73,13 @@ export default function PlanTable({
       >
         <SVG src="/delete.svg" className="mr-2" />
         Löschen
+      </Button>
+      <Button
+        className="drop-shadow mb-4 mr-4"
+        onClick={() => setDividerForSelected()}
+      >
+        <SVG src="/divider.svg" className="mr-2" />
+        Teiler setzen
       </Button>
       <Table className="w-full">
         <TableBody>
@@ -101,18 +109,21 @@ export default function PlanTable({
                     columnIndex != line.length - 1 ? "border-r-2" : null
                   } 
                   ${rowIndex != plan.length - 1 ? "border-b-2" : null}
+                  ${value === "X" ? "bg-gray-900" : null}
                   ${
                     (selector == 0 && selectorIndex == columnIndex) ||
                     (selector == 1 && selectorIndex == rowIndex)
-                      ? "bg-gray-50"
+                      ? "bg-gray-200"
                       : null
                   }`}
-                  inputClassName={
+                  inputClassName={`
+                  ${value === "X" ? "bg-gray-900" : null}
+                  ${
                     (selector == 0 && selectorIndex == columnIndex) ||
                     (selector == 1 && selectorIndex == rowIndex)
-                      ? "bg-gray-50"
+                      ? "bg-gray-200"
                       : null
-                  }
+                  }`}
                   value={value}
                   onKeyUp={() => setFieldValue(event, columnIndex, rowIndex)}
                 />

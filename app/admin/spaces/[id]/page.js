@@ -10,7 +10,6 @@ import {
   getSpace,
   patchSpaceName,
   patchSpacePlan,
-  putSpace,
 } from "@/api/services/SpaceService";
 import PlanTable from "@/components/plantable";
 
@@ -91,6 +90,23 @@ export default function SingleSpace({ params }) {
       changeSpacePlan(spacePlan);
     }
   };
+  const setDividerForSelected = () => {
+    if (selectorIndex != -1) {
+      if (selector == Selector.Row) {
+        for (let i = 0; i < spacePlan[0].length; i++) {
+          spacePlan[selectorIndex][i] = "X";
+        }
+      }
+      if (selector == Selector.Column) {
+        for (let i = 0; i < spacePlan.length; i++) {
+          spacePlan[i][selectorIndex] = "X";
+        }
+      }
+
+      setSelectorIndex(-1);
+      changeSpacePlan(spacePlan);
+    }
+  };
 
   useEffect(() => {
     loadSpace();
@@ -131,6 +147,7 @@ export default function SingleSpace({ params }) {
             selector={selector}
             selectorIndex={selectorIndex}
             deleteSelected={deleteSelected}
+            setDividerForSelected={setDividerForSelected}
           />
         </div>
       )}
