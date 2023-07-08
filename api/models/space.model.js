@@ -4,4 +4,8 @@ export default class Space {
     this.name = name;
     this.plan = plan;
   }
+
+  getPlanAsArray() {
+    return JSON.parse(this.plan);
+  }
 }

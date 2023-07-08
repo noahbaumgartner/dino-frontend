@@ -21,7 +21,7 @@ export const getSpaces = async () => {
 export const getSpace = async (id) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/${ROUTE}/${id}`);
-
+    console.log(response.data.plan);
     return new Space(response.data.id, response.data.name, response.data.plan);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -47,6 +47,32 @@ export const putSpace = async (id, name, plan) => {
   try {
     const response = await axios.put(`${API_BASE_URL}/${ROUTE}/${id}`, {
       name: name,
+      plan: plan,
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const patchSpaceName = async (id, name) => {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/${ROUTE}/${id}`, {
+      name: name,
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const patchSpacePlan = async (id, plan) => {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/${ROUTE}/${id}`, {
       plan: plan,
     });
 
