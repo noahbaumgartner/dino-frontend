@@ -31,7 +31,6 @@ export default function SingleSpace({ params }) {
       .then((response) => {
         setSpace(response);
         setSpaceName(response.name);
-        console.log(response.plan);
 
         if (response.plan) setSpacePlan(response.getPlanAsArray());
         else setSpacePlan([[""]]);

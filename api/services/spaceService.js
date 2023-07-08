@@ -21,7 +21,6 @@ export const getSpaces = async () => {
 export const getSpace = async (id) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/${ROUTE}/${id}`);
-    console.log(response.data.plan);
     return new Space(response.data.id, response.data.name, response.data.plan);
   } catch (error) {
     console.error("Error fetching data:", error);

@@ -109,7 +109,7 @@ export default function PlanTable({
                     columnIndex != line.length - 1 ? "border-r-2" : null
                   } 
                   ${rowIndex != plan.length - 1 ? "border-b-2" : null}
-                  ${value === "X" ? "bg-gray-900" : null}
+                  ${value === "X" ? "bg-gray-900 text-gray-900" : null}
                   ${
                     (selector == 0 && selectorIndex == columnIndex) ||
                     (selector == 1 && selectorIndex == rowIndex)
@@ -117,7 +117,7 @@ export default function PlanTable({
                       : null
                   }`}
                   inputClassName={`
-                  ${value === "X" ? "bg-gray-900" : null}
+                  ${value === "X" ? "bg-gray-900 text-gray-900" : null}
                   ${
                     (selector == 0 && selectorIndex == columnIndex) ||
                     (selector == 1 && selectorIndex == rowIndex)
