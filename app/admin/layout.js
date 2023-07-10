@@ -1,5 +1,8 @@
-"use client";
 import Sidenav from "@/components/sidenav";
+
+export const metadata = {
+  title: "Admin | Dino",
+};
 
 export default function AdminLayout({ children }) {
   return (

@@ -2,7 +2,9 @@ import Table from "@/components/table";
 import TableBody from "@/components/tablebody";
 import TableRow from "@/components/tablerow";
 import Button from "./button";
+import Paragraph from "./Paragraph";
 import SVG from "./svg";
+import Title from "./title";
 
 function Field({ children, className }) {
   return <td className={className}>{children}</td>;
@@ -57,8 +59,17 @@ export default function PlanTable({
   deleteSelected,
   setDividerForSelected,
 }) {
+  const inactivePattern = /^\(.*\)$/;
   return (
     <div>
+      <div className="text-left px-8 pb-6 pt-4 backdrop-blur-sm bg-white/30 border-2 border-gray-300 rounded-lg drop-shadow flex mb-4">
+        <Paragraph>
+          Mit der nachfolgenden Tabelle kann der Aufbau eines Bereichs definiert
+          werden. Dabei gilt ein grosses 'X' als ein Teiler Feld und eine
+          Tisch-Bezeichnung umrandet mit runden Klammern '()' entspricht einem
+          inaktiven Tisch.
+        </Paragraph>
+      </div>
       <Button className="drop-shadow mb-4 mr-4" onClick={() => addColumn()}>
         <SVG src="/add.svg" className="mr-2" />
         Spalte einfügen
@@ -111,6 +122,11 @@ export default function PlanTable({
                   ${rowIndex != plan.length - 1 ? "border-b-2" : null}
                   ${value === "X" ? "bg-gray-900 text-gray-900" : null}
                   ${
+                    inactivePattern.test(value)
+                      ? "bg-gray-600 text-white"
+                      : null
+                  }
+                  ${
                     (selector == 0 && selectorIndex == columnIndex) ||
                     (selector == 1 && selectorIndex == rowIndex)
                       ? "bg-gray-200"
@@ -118,6 +134,11 @@ export default function PlanTable({
                   }`}
                   inputClassName={`
                   ${value === "X" ? "bg-gray-900 text-gray-900" : null}
+                  ${
+                    inactivePattern.test(value)
+                      ? "bg-gray-600 text-white"
+                      : null
+                  }
                   ${
                     (selector == 0 && selectorIndex == columnIndex) ||
                     (selector == 1 && selectorIndex == rowIndex)
