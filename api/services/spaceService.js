@@ -2,7 +2,7 @@ import Space from "../models/space.model";
 
 const { default: axios } = require("axios");
 
-const API_BASE_URL = "http://192.168.1.104:8000";
+const API_BASE_URL = "http://localhost:8000";
 const ROUTE = "spaces";
 
 export const getSpaces = async () => {

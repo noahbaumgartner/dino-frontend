@@ -18,7 +18,7 @@ function Header({ closeOnClick }) {
 }
 
 function Title({ title }) {
-  return <li className="text-xs text-gray-400">{title}</li>;
+  return <li className="text-xs text-gray-400 py-2">{title}</li>;
 }
 
 function Item({ onClick, link, text, svg }) {
@@ -27,7 +27,7 @@ function Item({ onClick, link, text, svg }) {
       <Link
         onClick={onClick}
         href={link}
-        className="flex items-center p-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100"
+        className="flex items-center p-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100 mb-1"
       >
         <SVG src={svg} />
         <span className="ml-3">{text}</span>
@@ -48,12 +48,12 @@ export default function Sidenav() {
     <div>
       <aside
         id="sidebar"
-        className={`fixed top-0 left-0 z-30 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
+        className={`fixed top-0 left-0 z-30 border-r-2 border-gray-200 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
           isVisible ? "translate-x-0" : ""
         }`}
       >
         <div className="h-full p-4 overflow-y-auto">
-          <ul className="space-y-2 font-medium">
+          <ul className="font-medium">
             <Header closeOnClick={toggleVisibility} />
             <Title title="Allgemein" />
             <Item
@@ -66,6 +66,12 @@ export default function Sidenav() {
             <Title title="Produkt" />
             <Item
               onClick={toggleVisibility}
+              link="/admin/"
+              text="Menüs"
+              svg="/menus.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
               link="/admin/productGroups"
               text="Produkt-Gruppen"
               svg="/productGroup.svg"
@@ -75,6 +81,12 @@ export default function Sidenav() {
               link="/admin/products"
               text="Produkte"
               svg="/product.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/products"
+              text="Modifier-Gruppen"
+              svg="/modifier.svg"
             />
             <Divider />
             <Title title="Darstellung" />
@@ -99,7 +111,7 @@ export default function Sidenav() {
               svg="/statistic.svg"
             />
             <Divider />
-            <Title title="Geräte" />
+            <Title title="Geräte & Druck" />
             <Item
               onClick={toggleVisibility}
               link="/admin/systemStatus"
@@ -112,6 +124,18 @@ export default function Sidenav() {
               text="Drucker"
               svg="/printer.svg"
             />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Druckvorlagen"
+              svg="/printTemplate.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Druckaufträge"
+              svg="/printOrder.svg"
+            />
             <Divider />
             <Title title="Weiteres" />
             <Item
@@ -119,6 +143,12 @@ export default function Sidenav() {
               link="/admin/systemStatus"
               text="Systemstatus"
               svg="/systemStatus.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Datenbank"
+              svg="/database.svg"
             />
             <Item
               onClick={toggleVisibility}

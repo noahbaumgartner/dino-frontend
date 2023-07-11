@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Metadata } from "next";
 import "./globals.css";
 
 export const metadata = {
