@@ -1,15 +1,8 @@
 "use client";
 import Button from "@/components/button";
 import SVG from "@/components/svg";
-import Table from "@/components/table";
-import TableBody from "@/components/tablebody";
-import TableBodyField from "@/components/tablebodyfield";
-import TableHead from "@/components/tablehead";
-import TableHeadField from "@/components/tableheadfield";
-import TableRow from "@/components/tablerow";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
 import {
   createProduct,
@@ -17,60 +10,14 @@ import {
   getProducts,
 } from "@/api/services/productService";
 import Input from "@/components/input";
-
-function ProductTable({ items, router, deleteItem }) {
-  return (
-    <Table>
-      <TableHead>
-        <TableHeadField className="text-center" minWidth="40px">
-          #
-        </TableHeadField>
-        <TableHeadField className="text-left" minWidth="200px">
-          Produkt
-        </TableHeadField>
-        <TableHeadField className="text-right" minWidth="350px">
-          Preis
-        </TableHeadField>
-        <TableHeadField className="text-right" minWidth="400px">
-          Aktionen
-        </TableHeadField>
-      </TableHead>
-      <TableBody>
-        {items &&
-          items.map((item) => (
-            <TableRow
-              onClick={() => router.push(`/admin/products/${item.id}`)}
-              key={item.id}
-            >
-              <TableBodyField className="text-center">{item.id}</TableBodyField>
-              <TableBodyField>{item.name}</TableBodyField>
-              <TableBodyField className="text-right">
-                {item.price.toFixed(2)} CHF
-              </TableBodyField>
-              <TableBodyField>
-                <Button
-                  className="float-right ml-2 z-10"
-                  border={false}
-                  onClick={(event) => deleteItem(event, item.id)}
-                >
-                  <SVG src="/delete.svg" className="mr-2" />
-                  Löschen
-                </Button>
-              </TableBodyField>
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
-  );
-}
+import { ItemTable } from "@/components/itemtable";
 
 export default function Products() {
   const [items, setItems] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const router = useRouter();
 
-  const loadProducts = () => {
+  const loadItems = () => {
     getProducts()
       .then((response) => {
         setItems(response);
@@ -84,19 +31,19 @@ export default function Products() {
       createProduct(name, price).then(() => {
         setProductName("");
         setProductPrice(0);
-        loadProducts();
+        loadItems();
       });
     }
   };
   const deleteItem = (event, id) => {
     event.stopPropagation();
     deleteProduct(id).then(() => {
-      loadProducts();
+      loadItems();
     });
   };
 
   useEffect(() => {
-    loadProducts();
+    loadItems();
   }, []);
 
   return (
@@ -131,7 +78,15 @@ export default function Products() {
               Produkt hinzufügen
             </Button>
           </div>
-          <ProductTable items={items} router={router} deleteItem={deleteItem} />
+          <ItemTable
+            columns={["id", "name", "price"]}
+            columnNames={["#", "Produkt", "Preis"]}
+            columnClasses={["text-center", "text-left", "text-right"]}
+            columnWidths={["40px", "200px", "350px"]}
+            items={items}
+            onClickRoute="admin/products/"
+            deleteItem={deleteItem}
+          />
         </div>
       )}
     </div>

@@ -1,10 +1,33 @@
-import Table from "@/components/table";
-import TableBody from "@/components/tablebody";
-import TableRow from "@/components/tablerow";
 import Button from "./button";
 import Paragraph from "./Paragraph";
 import SVG from "./svg";
-import Title from "./title";
+
+function Table({ children, className }) {
+  return (
+    <div
+      className={`overflow-x-scroll rounded-lg drop-shadow-sm border-2 border-gray-200 ${className}`}
+    >
+      <table className="table-auto w-full border-none rounded-lg min-w-full whitespace-no-wrap">
+        {children}
+      </table>
+    </div>
+  );
+}
+
+function TableBody({ children }) {
+  return <tbody className="bg-white">{children}</tbody>;
+}
+
+function TableRow({ children, onClick, className }) {
+  return (
+    <tr
+      onClick={onClick}
+      className={`hover:bg-gray-50 cursor-pointer focus:outline focus:outline-2 focus:outline-gray-900 focus:outline-offset-2 ${className}`}
+    >
+      {children}
+    </tr>
+  );
+}
 
 function Field({ children, className }) {
   return <td className={className}>{children}</td>;

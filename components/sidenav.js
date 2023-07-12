@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Button from "./button";
 import SVG from "./svg";
-
+import { BeakerIcon } from "@heroicons/react/24/outline";
 function Header({ closeOnClick }) {
   return (
     <li className="flex">
@@ -111,7 +111,7 @@ export default function Sidenav() {
               svg="/statistic.svg"
             />
             <Divider />
-            <Title title="Geräte & Druck" />
+            <Title title="Geräte" />
             <Item
               onClick={toggleVisibility}
               link="/admin/systemStatus"
@@ -124,16 +124,24 @@ export default function Sidenav() {
               text="Drucker"
               svg="/printer.svg"
             />
+            <Divider />
+            <Title title="Druck" />
             <Item
               onClick={toggleVisibility}
-              link="/admin/systemStatus"
-              text="Druckvorlagen"
+              link="/admin/printTemplates"
+              text="Vorlagen"
               svg="/printTemplate.svg"
             />
             <Item
               onClick={toggleVisibility}
               link="/admin/systemStatus"
-              text="Druckaufträge"
+              text="Aufträge"
+              svg="/printOrder.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/systemStatus"
+              text="Drucke"
               svg="/printOrder.svg"
             />
             <Divider />

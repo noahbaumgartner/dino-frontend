@@ -1,12 +1,6 @@
 "use client";
 import Button from "@/components/button";
 import Loader from "@/components/loader";
-import Table from "@/components/table";
-import TableBody from "@/components/tablebody";
-import TableBodyField from "@/components/tablebodyfield";
-import TableHead from "@/components/tablehead";
-import TableHeadField from "@/components/tableheadfield";
-import TableRow from "@/components/tablerow";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -19,51 +13,6 @@ import {
   getProduct,
   putProduct,
 } from "@/api/services/productService";
-
-function ModifierTable({ modifiers, deleteItem }) {
-  return (
-    <Table>
-      <TableHead>
-        <TableHeadField className="text-center" minWidth="40px">
-          #
-        </TableHeadField>
-        <TableHeadField className="text-left" minWidth="200px">
-          Modifier
-        </TableHeadField>
-        <TableHeadField className="text-right" minWidth="350px">
-          Preis-Differenz
-        </TableHeadField>
-        <TableHeadField className="text-right" minWidth="350px">
-          Aktionen
-        </TableHeadField>
-      </TableHead>
-      <TableBody>
-        {modifiers &&
-          modifiers.map((modifier) => (
-            <TableRow key={modifier.id}>
-              <TableBodyField className="text-center">
-                {modifier.id}
-              </TableBodyField>
-              <TableBodyField>{modifier.name}</TableBodyField>
-              <TableBodyField className="text-right">
-                {modifier.priceDiff} CHF
-              </TableBodyField>
-              <TableBodyField>
-                <Button
-                  className="float-right ml-2 z-10"
-                  border={false}
-                  onClick={(event) => deleteItem(event, modifier.id)}
-                >
-                  <SVG src="/delete.svg" className="mr-2" />
-                  Löschen
-                </Button>
-              </TableBodyField>
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
-  );
-}
 
 export default function SingleProductGroup({ params }) {
   const [product, setProduct] = useState(false);
@@ -177,7 +126,14 @@ export default function SingleProductGroup({ params }) {
               Modifier hinzufügen
             </Button>
           </div>
-          <ModifierTable modifiers={modifiers} deleteItem={deleteModifier} />
+          <ItemTable
+            columns={["id", "name", "priceDiff"]}
+            columnNames={["#", "Modifier", "Preis-Differenz"]}
+            columnClasses={["text-center", "text-left", "text-right"]}
+            columnWidths={["40px", "200px", "350px"]}
+            items={modifiers}
+            deleteItem={deleteModifier}
+          />
         </div>
       )}
       <Button

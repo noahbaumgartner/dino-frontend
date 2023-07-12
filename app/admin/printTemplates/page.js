@@ -1,23 +1,23 @@
 "use client";
-import {
-  getProductGroups,
-  createProductGroup,
-  deleteProductGroup,
-} from "@/api/services/productGroupService";
 import Button from "@/components/button";
 import SVG from "@/components/svg";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
 import Input from "@/components/input";
+import {
+  createPrintTemplate,
+  deletePrintTemplate,
+  getPrintTemplates,
+} from "@/api/services/printTemplateService";
 import { ItemTable } from "@/components/itemtable";
 
-export default function ProductGroups() {
+export default function PrintTemplates() {
   const [items, setItems] = useState(false);
-  const [productGroup, setProductGroup] = useState("");
+  const [templateName, setTemplateName] = useState("");
 
   const loadItems = () => {
-    getProductGroups()
+    getPrintTemplates()
       .then((response) => {
         setItems(response);
       })
@@ -27,15 +27,15 @@ export default function ProductGroups() {
   };
   const addItem = (name) => {
     if (name) {
-      createProductGroup(name).then(() => {
-        setProductGroup("");
+      createPrintTemplate(name).then(() => {
+        setTemplateName("");
         loadItems();
       });
     }
   };
   const deleteItem = (event, id) => {
     event.stopPropagation();
-    deleteProductGroup(id).then(() => {
+    deletePrintTemplate(id).then(() => {
       loadItems();
     });
   };
@@ -50,31 +50,31 @@ export default function ProductGroups() {
         <Loader />
       ) : (
         <div>
-          <Title>Produkt-Gruppen</Title>
+          <Title>Druckvorlagen</Title>
           <div className="mb-4 md:flex">
             <Input
               type="text"
               className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
-              value={productGroup}
+              value={templateName}
               onChange={(value) => {
-                setProductGroup(value.currentTarget.value);
+                setTemplateName(value.currentTarget.value);
               }}
             />
             <Button
-              onClick={() => addItem(productGroup)}
+              onClick={() => addItem(templateName)}
               className="drop-shadow"
             >
               <SVG src="/add.svg" className="mr-2" />
-              Gruppe hinzufügen
+              Vorlage hinzufügen
             </Button>
           </div>
           <ItemTable
             columns={["id", "name"]}
-            columnNames={["#", "Produkt-Gruppe"]}
+            columnNames={["#", "Vorlage"]}
             columnClasses={["text-center", "text-left"]}
             columnWidths={["40px", "200px"]}
             items={items}
-            onClickRoute="admin/productGroups/"
+            onClickRoute="admin/printTemplates/"
             deleteItem={deleteItem}
           />
         </div>

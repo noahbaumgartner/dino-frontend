@@ -8,70 +8,13 @@ import {
 } from "@/api/services/productGroupService";
 import Button from "@/components/button";
 import Loader from "@/components/loader";
-import Table from "@/components/table";
-import TableBody from "@/components/tablebody";
-import TableBodyField from "@/components/tablebodyfield";
-import TableHead from "@/components/tablehead";
-import TableHeadField from "@/components/tableheadfield";
-import TableRow from "@/components/tablerow";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
 import Input from "@/components/input";
 import { getProducts } from "@/api/services/productService";
-
-function ProductAssignmentTable({ products, assignItem, unassignItem }) {
-  return (
-    <Table>
-      <TableHead>
-        <TableHeadField className="text-center" minWidth="40px">
-          #
-        </TableHeadField>
-        <TableHeadField className="text-left" minWidth="200px">
-          Produkt
-        </TableHeadField>
-        <TableHeadField className="text-right" minWidth="350px">
-          Aktionen
-        </TableHeadField>
-      </TableHead>
-      <TableBody>
-        {products &&
-          products.map((product) =>
-            !product.hidden ? (
-              <TableRow key={product.id}>
-                <TableBodyField className="text-center">
-                  {product.id}
-                </TableBodyField>
-                <TableBodyField>{product.name}</TableBodyField>
-                <TableBodyField>
-                  {product.assigned ? (
-                    <Button
-                      className="float-right ml-2 z-10"
-                      border={false}
-                      onClick={() => unassignItem(product.id)}
-                    >
-                      <SVG src="/x-mark.svg" className="mr-2" />
-                      Zuweisung entfernen
-                    </Button>
-                  ) : (
-                    <Button
-                      className="float-right ml-2 z-10"
-                      border={false}
-                      onClick={() => assignItem(product.id)}
-                    >
-                      <SVG src="/check.svg" className="mr-2" />
-                      Zuweisen
-                    </Button>
-                  )}
-                </TableBodyField>
-              </TableRow>
-            ) : null
-          )}
-      </TableBody>
-    </Table>
-  );
-}
+import { ItemTable } from "@/components/itemtable";
 
 export default function SingleProductGroup({ params }) {
   const [productGroup, setProductGroup] = useState(false);
@@ -167,10 +110,15 @@ export default function SingleProductGroup({ params }) {
               );
             }}
           />
-          <ProductAssignmentTable
-            products={products}
+          <ItemTable
+            columns={["id", "name"]}
+            columnNames={["#", "Produkt"]}
+            columnClasses={["text-center", "text-left"]}
+            columnWidths={["40px", "200px"]}
+            items={products}
             assignItem={assignItem}
             unassignItem={unassignItem}
+            hiddenAttribute={true}
           />
         </div>
       )}
