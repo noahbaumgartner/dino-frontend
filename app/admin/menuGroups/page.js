@@ -4,21 +4,20 @@ import SVG from "@/components/svg";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
-import {
-  createSpace,
-  deleteSpace,
-  getSpaces,
-} from "@/api/services/SpaceService";
 import Input from "@/components/input";
 import { ItemTable } from "@/components/itemtable";
+import {
+  createMenuGroup,
+  deleteMenuGroup,
+  getMenuGroups,
+} from "@/api/services/menuGroupService";
 
-export default function Spaces() {
+export default function MenuGroups() {
   const [items, setItems] = useState(false);
-  const [spaceName, setSpaceName] = useState("");
-  const [spacePlan, setSpacePlan] = useState(0);
+  const [menuGroupName, setMenuGroupName] = useState("");
 
   const loadItems = () => {
-    getSpaces()
+    getMenuGroups()
       .then((response) => {
         setItems(response);
       })
@@ -28,16 +27,15 @@ export default function Spaces() {
   };
   const addItem = (name) => {
     if (name) {
-      createSpace(name, "").then(() => {
-        setSpaceName("");
-        setSpacePlan(0);
+      createMenuGroup(name).then(() => {
+        setMenuGroupName("");
         loadItems();
       });
     }
   };
   const deleteItem = (event, id) => {
     event.stopPropagation();
-    deleteSpace(id).then(() => {
+    deleteMenuGroup(id).then(() => {
       loadItems();
     });
   };
@@ -52,31 +50,31 @@ export default function Spaces() {
         <Loader />
       ) : (
         <div>
-          <Title>Bereiche</Title>
+          <Title>Menü-Gruppen</Title>
           <div className="mb-4 md:flex">
             <Input
               type="text"
               className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
-              value={spaceName}
+              value={menuGroupName}
               onChange={(value) => {
-                setSpaceName(value.currentTarget.value);
+                setMenuGroupName(value.currentTarget.value);
               }}
             />
             <Button
-              onClick={() => addItem(spaceName, spacePlan)}
+              onClick={() => addItem(menuGroupName)}
               className="drop-shadow"
             >
               <SVG src="/add.svg" className="mr-2" />
-              Bereich hinzufügen
+              Menü-Gruppe hinzufügen
             </Button>
           </div>
           <ItemTable
             columns={["id", "name"]}
-            columnNames={["#", "Bereich"]}
+            columnNames={["#", "Menü-Gruppe"]}
             columnClasses={["text-center", "text-left"]}
             columnWidths={["40px", "200px"]}
             items={items}
-            onClickRoute="admin/spaces/"
+            onClickRoute="admin/menuGroups/"
             deleteItem={deleteItem}
           />
         </div>

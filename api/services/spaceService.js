@@ -1,13 +1,11 @@
 import Space from "../models/space.model";
+import { BaseURL, Routes } from "../routes";
 
 const { default: axios } = require("axios");
 
-const API_BASE_URL = "http://localhost:8000";
-const ROUTE = "spaces";
-
 export const getSpaces = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${ROUTE}`);
+    const response = await axios.get(`${BaseURL}/${Routes.Spaces}`);
     const mappedData = response.data.map(
       (element) => new Space(element.id, element.name, element.plan)
     );
@@ -20,7 +18,7 @@ export const getSpaces = async () => {
 
 export const getSpace = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/${ROUTE}/${id}`);
+    const response = await axios.get(`${BaseURL}/${Routes.Spaces}/${id}`);
     return new Space(response.data.id, response.data.name, response.data.plan);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -30,12 +28,12 @@ export const getSpace = async (id) => {
 
 export const createSpace = async (name, plan) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/${ROUTE}`, {
+    const response = await axios.post(`${BaseURL}/${Routes.Spaces}`, {
       name: name,
       plan: plan,
     });
 
-    return new Space(response.data.id, response.data.name, response.data.price);
+    return new Space(response.data.id, response.data.name, response.data.plan);
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
@@ -44,7 +42,7 @@ export const createSpace = async (name, plan) => {
 
 export const putSpace = async (id, name, plan) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/${ROUTE}/${id}`, {
+    const response = await axios.put(`${BaseURL}/${Routes.Spaces}/${id}`, {
       name: name,
       plan: plan,
     });
@@ -58,7 +56,7 @@ export const putSpace = async (id, name, plan) => {
 
 export const patchSpaceName = async (id, name) => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/${ROUTE}/${id}`, {
+    const response = await axios.patch(`${BaseURL}/${Routes.Spaces}/${id}`, {
       name: name,
     });
 
@@ -71,7 +69,7 @@ export const patchSpaceName = async (id, name) => {
 
 export const patchSpacePlan = async (id, plan) => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/${ROUTE}/${id}`, {
+    const response = await axios.patch(`${BaseURL}/${Routes.Spaces}/${id}`, {
       plan: plan,
     });
 
@@ -84,7 +82,7 @@ export const patchSpacePlan = async (id, plan) => {
 
 export const deleteSpace = async (id) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/${ROUTE}/${id}`);
+    const response = await axios.delete(`${BaseURL}/${Routes.Spaces}/${id}`);
 
     return true;
   } catch (error) {

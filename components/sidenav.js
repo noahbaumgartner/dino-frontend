@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Button from "./button";
 import SVG from "./svg";
-import { BeakerIcon } from "@heroicons/react/24/outline";
+
 function Header({ closeOnClick }) {
   return (
     <li className="flex">
@@ -22,14 +23,26 @@ function Title({ title }) {
 }
 
 function Item({ onClick, link, text, svg }) {
+  const pathname = usePathname();
   return (
     <li>
       <Link
         onClick={onClick}
         href={link}
-        className="flex items-center p-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100 mb-1"
+        className={`flex items-center py-2 pr-2 text-gray-900 rounded-lg hover:bg-gray-100 mb-1
+        ${
+          pathname === link
+            ? "bg-gradient-to-r from-gray-100 to-gray-200"
+            : "bg-white"
+        }`}
       >
-        <SVG src={svg} />
+        <div
+          className={
+            pathname === link ? "border-l-2 border-gray-900 pl-2" : "pl-2"
+          }
+        >
+          <SVG src={svg} />
+        </div>
         <span className="ml-3">{text}</span>
       </Link>
     </li>
@@ -58,18 +71,26 @@ export default function Sidenav() {
             <Title title="Allgemein" />
             <Item
               onClick={toggleVisibility}
-              link="/admin/"
+              link="/admin"
               text="Home"
               svg="/home.svg"
             />
             <Divider />
-            <Title title="Produkt" />
+            <Title title="Menüs" />
             <Item
               onClick={toggleVisibility}
-              link="/admin/"
+              link="/admin/menus"
               text="Menüs"
               svg="/menus.svg"
             />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/menuGroups"
+              text="Menü-Gruppen"
+              svg="/menuGroup.svg"
+            />
+            <Divider />
+            <Title title="Produkte" />
             <Item
               onClick={toggleVisibility}
               link="/admin/productGroups"
@@ -84,7 +105,7 @@ export default function Sidenav() {
             />
             <Item
               onClick={toggleVisibility}
-              link="/admin/products"
+              link="/admin/modifierGroups"
               text="Modifier-Gruppen"
               svg="/modifier.svg"
             />
@@ -106,21 +127,27 @@ export default function Sidenav() {
             />
             <Item
               onClick={toggleVisibility}
-              link="/admin/statistic"
-              text="Statistik"
+              link="/admin/statistics"
+              text="Statistiken"
               svg="/statistic.svg"
+            />
+            <Item
+              onClick={toggleVisibility}
+              link="/admin/prints"
+              text="Ausdrucke"
+              svg="/printOrder.svg"
             />
             <Divider />
             <Title title="Geräte" />
             <Item
               onClick={toggleVisibility}
-              link="/admin/systemStatus"
+              link="/admin/clients"
               text="Clients"
               svg="/client.svg"
             />
             <Item
               onClick={toggleVisibility}
-              link="/admin/systemStatus"
+              link="/admin/printers"
               text="Drucker"
               svg="/printer.svg"
             />
@@ -134,14 +161,8 @@ export default function Sidenav() {
             />
             <Item
               onClick={toggleVisibility}
-              link="/admin/systemStatus"
+              link="/admin/printJobs"
               text="Aufträge"
-              svg="/printOrder.svg"
-            />
-            <Item
-              onClick={toggleVisibility}
-              link="/admin/systemStatus"
-              text="Drucke"
               svg="/printOrder.svg"
             />
             <Divider />
@@ -154,7 +175,7 @@ export default function Sidenav() {
             />
             <Item
               onClick={toggleVisibility}
-              link="/admin/systemStatus"
+              link="/admin/database"
               text="Datenbank"
               svg="/database.svg"
             />

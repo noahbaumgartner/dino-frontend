@@ -4,21 +4,16 @@ import SVG from "@/components/svg";
 import Title from "@/components/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
-import {
-  createSpace,
-  deleteSpace,
-  getSpaces,
-} from "@/api/services/SpaceService";
 import Input from "@/components/input";
 import { ItemTable } from "@/components/itemtable";
+import { createMenu, deleteMenu, getMenus } from "@/api/services/menuService";
 
-export default function Spaces() {
+export default function Menus() {
   const [items, setItems] = useState(false);
-  const [spaceName, setSpaceName] = useState("");
-  const [spacePlan, setSpacePlan] = useState(0);
+  const [menuName, setMenuName] = useState("");
 
   const loadItems = () => {
-    getSpaces()
+    getMenus()
       .then((response) => {
         setItems(response);
       })
@@ -28,16 +23,15 @@ export default function Spaces() {
   };
   const addItem = (name) => {
     if (name) {
-      createSpace(name, "").then(() => {
-        setSpaceName("");
-        setSpacePlan(0);
+      createMenu(name).then(() => {
+        setMenuName("");
         loadItems();
       });
     }
   };
   const deleteItem = (event, id) => {
     event.stopPropagation();
-    deleteSpace(id).then(() => {
+    deleteMenu(id).then(() => {
       loadItems();
     });
   };
@@ -52,31 +46,28 @@ export default function Spaces() {
         <Loader />
       ) : (
         <div>
-          <Title>Bereiche</Title>
+          <Title>Menüs</Title>
           <div className="mb-4 md:flex">
             <Input
               type="text"
               className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
-              value={spaceName}
+              value={menuName}
               onChange={(value) => {
-                setSpaceName(value.currentTarget.value);
+                setMenuName(value.currentTarget.value);
               }}
             />
-            <Button
-              onClick={() => addItem(spaceName, spacePlan)}
-              className="drop-shadow"
-            >
+            <Button onClick={() => addItem(menuName)} className="drop-shadow">
               <SVG src="/add.svg" className="mr-2" />
-              Bereich hinzufügen
+              Menü hinzufügen
             </Button>
           </div>
           <ItemTable
             columns={["id", "name"]}
-            columnNames={["#", "Bereich"]}
+            columnNames={["#", "Menü"]}
             columnClasses={["text-center", "text-left"]}
             columnWidths={["40px", "200px"]}
             items={items}
-            onClickRoute="admin/spaces/"
+            onClickRoute="admin/menus/"
             deleteItem={deleteItem}
           />
         </div>

@@ -1,13 +1,11 @@
-import ProductAssignment from "../models/modifier.model";
 import ProductGroup from "../models/productGroup.model";
+import { BaseURL } from "../routes";
 
 const { default: axios } = require("axios");
 
-const API_BASE_URL = "http://localhost:8000";
-
 export const getProductGroups = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/productGroups`);
+    const response = await axios.get(`${BaseURL}/productGroups`);
     const mappedData = response.data.map(
       (element) => new ProductGroup(element.id, element.name)
     );
@@ -20,7 +18,7 @@ export const getProductGroups = async () => {
 
 export const getProductGroup = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/productGroups/${id}`);
+    const response = await axios.get(`${BaseURL}/productGroups/${id}`);
 
     return new ProductGroup(response.data.id, response.data.name);
   } catch (error) {
@@ -31,7 +29,7 @@ export const getProductGroup = async (id) => {
 
 export const createProductGroup = async (name) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/productGroups`, {
+    const response = await axios.post(`${BaseURL}/productGroups`, {
       name: name,
     });
 
@@ -44,7 +42,7 @@ export const createProductGroup = async (name) => {
 
 export const putProductGroup = async (id, name) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/productGroups/${id}`, {
+    const response = await axios.put(`${BaseURL}/productGroups/${id}`, {
       name: name,
     });
 
@@ -57,7 +55,7 @@ export const putProductGroup = async (id, name) => {
 
 export const deleteProductGroup = async (id) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/productGroups/${id}`);
+    const response = await axios.delete(`${BaseURL}/productGroups/${id}`);
 
     return true;
   } catch (error) {
@@ -69,7 +67,7 @@ export const deleteProductGroup = async (id) => {
 export const getAssignmentsForProductGroup = async (id) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/productGroups/${id}/productAssignments`
+      `${BaseURL}/productGroups/${id}/productAssignments`
     );
     const mappedData = response.data.map((element) => element.ProductId);
 
@@ -83,7 +81,7 @@ export const getAssignmentsForProductGroup = async (id) => {
 export const createAssignmentForProductGroup = async (id, productId) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/productGroups/${id}/productAssignments`,
+      `${BaseURL}/productGroups/${id}/productAssignments`,
       {
         productId: productId,
       }
@@ -99,7 +97,7 @@ export const createAssignmentForProductGroup = async (id, productId) => {
 export const deleteAssignmentForProductGroup = async (id, productId) => {
   try {
     const response = await axios.delete(
-      `${API_BASE_URL}/productGroups/${id}/productAssignments/${productId}`
+      `${BaseURL}/productGroups/${id}/productAssignments/${productId}`
     );
 
     return true;

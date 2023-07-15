@@ -13,6 +13,7 @@ import {
   getProduct,
   putProduct,
 } from "@/api/services/productService";
+import { ItemTable } from "@/components/itemtable";
 
 export default function SingleProductGroup({ params }) {
   const [product, setProduct] = useState(false);
