@@ -99,7 +99,7 @@ export default function SingleProductGroup({ params }) {
               }}
             />
             <Button
-              onClick={() => changeName(productGroupName)}
+              onClick={() => changeName(menuName)}
               className="drop-shadow"
             >
               <SVG src="/change.svg" className="mr-2" />
