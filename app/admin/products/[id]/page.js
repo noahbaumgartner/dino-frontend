@@ -7,21 +7,23 @@ import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
 import Input from "@/components/input";
 import {
+  createAssignmentForProduct,
   createModifierForProduct,
+  deleteAssignmentForProduct,
   deleteModifierForProduct,
+  getAssignmentsForProduct,
   getModifiersForProduct,
   getProduct,
   putProduct,
 } from "@/api/services/productService";
 import { ItemTable } from "@/components/itemtable";
+import { getModifierGroups } from "@/api/services/modifierGroupService";
 
 export default function SingleProductGroup({ params }) {
   const [product, setProduct] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const [modifierName, setModifierName] = useState("");
-  const [modifierPriceDiff, setModifierPriceDiff] = useState(0);
-  const [modifiers, setModifiers] = useState(false);
+  const [modifierGroups, setModifierGroups] = useState([]);
   const router = useRouter();
 
   const loadProduct = () => {
@@ -35,6 +37,7 @@ export default function SingleProductGroup({ params }) {
         console.log(err);
       });
   };
+
   const changeProduct = (name, price) => {
     if (name && price) {
       putProduct(params.id, name, price).then(() => {
@@ -42,30 +45,33 @@ export default function SingleProductGroup({ params }) {
       });
     }
   };
-  const loadModifiers = () => {
-    getModifiersForProduct(params.id).then((response) => {
-      setModifiers(response);
+
+  const loadModifierGroups = () => {
+    getModifierGroups(params.id).then(modifierGroups => {
+      getAssignmentsForProduct(params.id).then(assignments => {
+        modifierGroups.forEach(modifierGroup => {
+          if (assignments.includes(product.id)) modifierGroup.setAssigned(true);
+        });
+        setModifierGroups(modifierGroups);
+      });
     });
   };
-  const addModifier = (name, priceDiff) => {
-    if (name) {
-      createModifierForProduct(name, priceDiff, params.id).then(() => {
-        loadModifiers();
-        setModifierName("");
-        setModifierPriceDiff(0);
-      });
-    }
+
+  const assignItem = (id) => {
+    createAssignmentForProduct(params.id, id).then(() => {
+      loadProductAssignments();
+    });
   };
-  const deleteModifier = (event, id) => {
-    event.stopPropagation();
-    deleteModifierForProduct(id, params.id).then(() => {
-      loadModifiers();
+
+  const unassignItem = (id) => {
+    deleteAssignmentForProduct(params.id, id).then(() => {
+      loadProductAssignments();
     });
   };
 
   useEffect(() => {
     loadProduct();
-    loadModifiers();
+    loadModifierGroups();
   }, []);
 
   return (
@@ -102,38 +108,14 @@ export default function SingleProductGroup({ params }) {
               Ändern
             </Button>
           </div>
-          <div className="mb-4 md:flex">
-            <Input
-              type="text"
-              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
-              value={modifierName}
-              onChange={(value) => {
-                setModifierName(value.currentTarget.value);
-              }}
-            />
-            <Input
-              type="number"
-              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
-              value={modifierPriceDiff}
-              onChange={(value) => {
-                setModifierPriceDiff(value.currentTarget.value);
-              }}
-            />
-            <Button
-              onClick={() => addModifier(modifierName, modifierPriceDiff)}
-              className="drop-shadow"
-            >
-              <SVG src="/add.svg" className="mr-2" />
-              Modifier hinzufügen
-            </Button>
-          </div>
           <ItemTable
-            columns={["id", "name", "priceDiff"]}
-            columnNames={["#", "Modifier", "Preis-Differenz"]}
-            columnClasses={["text-center", "text-left", "text-right"]}
-            columnWidths={["40px", "200px", "350px"]}
-            items={modifiers}
-            deleteItem={deleteModifier}
+            columns={["id", "name"]}
+            columnNames={["#", "Modifier-Gruppe"]}
+            columnClasses={["text-center", "text-left"]}
+            columnWidths={["40px", "200px"]}
+            assignItem={assignItem}
+            unassignItem={unassignItem}
+            items={modifierGroups}
           />
         </div>
       )}

@@ -47,6 +47,7 @@ function TableBodyField({ children, className }) {
 }
 
 export function ItemTable({
+  className,
   columns,
   columnNames,
   columnClasses,
@@ -56,12 +57,13 @@ export function ItemTable({
   deleteItem,
   assignItem,
   unassignItem,
+  addItem,
   hiddenAttribute = false,
 }) {
   const router = useRouter();
 
   return (
-    <Table>
+    <Table className={className}>
       <TableHead>
         {columnNames &&
           columnNames.map((columnName, index) => (
@@ -130,6 +132,16 @@ export function ItemTable({
                         Zuweisen
                       </Button>
                     )
+                  ) : null}
+                  {addItem ? (
+                    <Button
+                      className="float-right ml-2 z-10"
+                      border={false}
+                      onClick={() => addItem(item)}
+                    >
+                      <SVG src="/add.svg" className="mr-2" />
+                      Hinzufügen
+                    </Button>
                   ) : null}
                 </TableBodyField>
               </TableRow>

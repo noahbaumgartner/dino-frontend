@@ -1,11 +1,4 @@
 "use client";
-import {
-  createAssignmentForProductGroup,
-  deleteAssignmentForProductGroup,
-  getAssignmentsForProductGroup,
-  getProductGroup,
-  putProductGroup,
-} from "@/api/services/productGroupService";
 import Button from "@/components/button";
 import Loader from "@/components/loader";
 import Title from "@/components/title";
@@ -13,16 +6,15 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
 import Input from "@/components/input";
-import { getProducts } from "@/api/services/productService";
 import { ItemTable } from "@/components/itemtable";
 import {
   createMenuGroupaAssignment,
   deleteMenuGroupAssignment,
   getMenu,
   getMenuGroupAssignments,
-  getMenus,
+  putMenu,
 } from "@/api/services/menuService";
-import { getMenuGroups, putMenuGroup } from "@/api/services/menuGroupService";
+import { getMenuGroups } from "@/api/services/menuGroupService";
 
 export default function SingleProductGroup({ params }) {
   const [menu, setMenu] = useState(false);
@@ -53,7 +45,7 @@ export default function SingleProductGroup({ params }) {
   };
   const changeName = (name) => {
     if (name) {
-      putMenuGroup(params.id, name).then(() => {
+      putMenu(params.id, name).then(() => {
         loadMenu();
       });
     }
@@ -88,7 +80,7 @@ export default function SingleProductGroup({ params }) {
         <Loader />
       ) : (
         <div>
-          <Title>Menu: {menu.name}</Title>
+          <Title>Menü: {menu.name}</Title>
           <div className="mb-4 md:flex">
             <Input
               type="text"

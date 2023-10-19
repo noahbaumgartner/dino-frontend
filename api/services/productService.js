@@ -77,10 +77,10 @@ export const deleteProduct = async (id) => {
   }
 };
 
-export const getModifiersForProduct = async (productId) => {
+export const getAssignmentsForProduct = async (id) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/${ROUTE}/${productId}/modifiers`
+      `${API_BASE_URL}/${ROUTE}/${id}/modifierGroupAssignments`
     );
     const mappedData = response.data.map(
       (element) =>
@@ -99,14 +99,12 @@ export const getModifiersForProduct = async (productId) => {
   }
 };
 
-export const createModifierForProduct = async (name, priceDiff, productId) => {
+export const createAssignmentForProduct = async (id, modifierGroupId) => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/${ROUTE}/${productId}/modifiers`,
+      `${API_BASE_URL}/${ROUTE}/${id}/modifierGroupAssignments`,
       {
-        name: name,
-        priceDiff: priceDiff,
-        ProductId: productId,
+        modifierGroupId: modifierGroupId,
       }
     );
 
@@ -117,10 +115,10 @@ export const createModifierForProduct = async (name, priceDiff, productId) => {
   }
 };
 
-export const deleteModifierForProduct = async (id, productId) => {
+export const deleteAssignmentForProduct = async (id, modifierGroupId) => {
   try {
     const response = await axios.delete(
-      `${API_BASE_URL}/${ROUTE}/${productId}/modifiers/${id}`
+      `${API_BASE_URL}/${ROUTE}/${id}/modifierGroupAssignments/${modifierGroupId}`
     );
 
     return true;
