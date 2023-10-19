@@ -8,7 +8,7 @@ import SVG from "./svg";
 function Header({ closeOnClick }) {
   return (
     <li className="flex">
-      <span className="font-bold flex-1 items-center py-2 text-gray-900">
+      <span className="font-bold flex-1 items-center py-2 text-black">
         🦖 Dino Admin
       </span>
       <Button onClick={closeOnClick} square={true}>
@@ -29,7 +29,7 @@ function Item({ onClick, link, text, svg }) {
       <Link
         onClick={onClick}
         href={link}
-        className={`flex items-center py-2 pr-2 text-gray-900 rounded-lg hover:bg-gray-100 mb-1
+        className={`flex items-center py-2 pr-2 text-black rounded-lg hover:bg-gray-100 mb-1
         ${
           pathname === link
             ? "bg-gradient-to-r from-gray-100 to-gray-200"
@@ -38,7 +38,7 @@ function Item({ onClick, link, text, svg }) {
       >
         <div
           className={
-            pathname === link ? "border-l-2 border-gray-900 pl-2" : "pl-2"
+            pathname === link ? "border-l-2 border-black pl-2" : "pl-2"
           }
         >
           <SVG src={svg} />
@@ -61,7 +61,7 @@ export default function Sidenav() {
     <div>
       <aside
         id="sidebar"
-        className={`fixed top-0 left-0 z-30 border-r-2 border-gray-200 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
+        className={`fixed top-0 left-0 z-30 overflow-auto border-r-2 border-gray-200 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
           isVisible ? "translate-x-0" : ""
         }`}
       >

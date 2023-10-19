@@ -22,7 +22,7 @@ function TableRow({ children, onClick, className }) {
   return (
     <tr
       onClick={onClick}
-      className={`hover:bg-gray-50 cursor-pointer focus:outline focus:outline-2 focus:outline-gray-900 focus:outline-offset-2 ${className}`}
+      className={`hover:bg-gray-50 cursor-pointer focus:outline focus:outline-2 focus:outline-black focus:outline-offset-2 ${className}`}
     >
       {children}
     </tr>
@@ -88,8 +88,8 @@ export default function PlanTable({
       <div className="text-left px-8 pb-6 pt-4 backdrop-blur-sm bg-white/30 border-2 border-gray-300 rounded-lg drop-shadow flex mb-4">
         <Paragraph>
           Mit der nachfolgenden Tabelle kann der Aufbau eines Bereichs definiert
-          werden. Dabei gilt ein grosses 'X' als ein Teiler Feld und eine
-          Tisch-Bezeichnung umrandet mit runden Klammern '()' entspricht einem
+          werden. Dabei gilt ein grosses X als ein Teiler Feld und eine
+          Tisch-Bezeichnung umrandet mit runden Klammern () entspricht einem
           inaktiven Tisch.
         </Paragraph>
       </div>
@@ -143,7 +143,7 @@ export default function PlanTable({
                     columnIndex != line.length - 1 ? "border-r-2" : null
                   } 
                   ${rowIndex != plan.length - 1 ? "border-b-2" : null}
-                  ${value === "X" ? "bg-gray-900 text-gray-900" : null}
+                  ${value === "X" ? "bg-black text-black" : null}
                   ${
                     inactivePattern.test(value)
                       ? "bg-gray-600 text-white"
@@ -156,7 +156,7 @@ export default function PlanTable({
                       : null
                   }`}
                   inputClassName={`
-                  ${value === "X" ? "bg-gray-900 text-gray-900" : null}
+                  ${value === "X" ? "bg-black text-black" : null}
                   ${
                     inactivePattern.test(value)
                       ? "bg-gray-600 text-white"
