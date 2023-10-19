@@ -30,11 +30,10 @@ function Item({ onClick, link, text, svg }) {
         onClick={onClick}
         href={link}
         className={`flex items-center py-2 pr-2 text-black rounded-lg hover:bg-gray-100 mb-1
-        ${
-          pathname === link
+        ${pathname === link
             ? "bg-gradient-to-r from-gray-100 to-gray-200"
             : "bg-white"
-        }`}
+          }`}
       >
         <div
           className={
@@ -61,9 +60,8 @@ export default function Sidenav() {
     <div>
       <aside
         id="sidebar"
-        className={`fixed top-0 left-0 z-30 overflow-auto border-r-2 border-gray-200 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow rounded-r-xl transition-transform -translate-x-full ${
-          isVisible ? "translate-x-0" : ""
-        }`}
+        className={`fixed top-0 left-0 z-30 overflow-auto border-r-2 border-gray-200 sm:w-72 w-full h-screen bg-white duration-200 drop-shadow transition-transform -translate-x-full ${isVisible ? "translate-x-0" : ""
+          }`}
       >
         <div className="h-full p-4 overflow-y-auto">
           <ul className="font-medium">

@@ -72,8 +72,7 @@ export const getItemsForMenuGroup = async (menuGroupId) => {
       `${BaseURL}/${Routes.MenuGroups}/${menuGroupId}/items`
     );
     const mappedData = response.data.map(
-      (element) =>
-        new MenuGroupItem(element.id, element.name, element.ProductId)
+      (element) => new MenuGroupItem(element.id, element.name, element.ProductId)
     );
     return mappedData;
   } catch (error) {

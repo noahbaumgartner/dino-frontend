@@ -116,3 +116,47 @@ export const deleteAssignmentForProduct = async (id, modifierGroupId) => {
         throw error;
     }
 };
+
+export const getModifiersForModifierGroup = async (id) => {
+    try {
+        const response = await axios.get(
+            `${API_BASE_URL}/${ROUTE}/${id}/modifiers`
+        );
+        const mappedData = response.data.map(
+            (element) => new Modifier(element.id, element.name, element.priceDiff, element.modifierGroupId)
+        );
+        return mappedData;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+};
+
+export const createModifierForModifierGroup = async (id, name, priceDiff, modifierId) => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}/${ROUTE}/${id}/modifiers`,
+            {
+                name: name,
+                priceDiff: priceDiff,
+                modifierId: modifierId,
+            }
+        );
+        return new Modifier(response.id, response.name, response.priceDiff, response.modifierGroupId);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+};
+
+export const deleteModifierForModifierGroup = async (id, modifierId) => {
+    try {
+        const response = await axios.delete(
+            `${API_BASE_URL}/${ROUTE}/${id}/items/${modifierId}`
+        );
+        return true;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+};
