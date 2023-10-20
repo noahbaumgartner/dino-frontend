@@ -54,6 +54,7 @@ export function ItemTable({
   columnWidths,
   items,
   onClickRoute,
+  pickColor,
   deleteItem,
   assignItem,
   unassignItem,
@@ -98,7 +99,7 @@ export function ItemTable({
                       minWidth={columnWidths[index]}
                       key={index}
                     >
-                      {item[column]}
+                      {(column === "price" || column === "priceDiff") ? item[column].toFixed(2) + " CHF" : item[column]}
                     </TableBodyField>
                   ))}
                 <TableBodyField>
@@ -110,6 +111,16 @@ export function ItemTable({
                     >
                       <SVG src="/delete.svg" className="mr-2" />
                       Löschen
+                    </Button>
+                  ) : null}
+                  {pickColor ? (
+                    <Button
+                      className="float-right ml-2 z-10"
+                      border={false}
+                      onClick={() => pickColor(item.id)}
+                    >
+                      <SVG src="/colorPalette.svg" className="mr-2" />
+                      <span className="h-3 w-3 bg-[#234253] rounded-full inline-block"></span>
                     </Button>
                   ) : null}
                   {assignItem && unassignItem ? (

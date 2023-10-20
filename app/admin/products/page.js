@@ -26,6 +26,7 @@ export default function Products() {
         console.log(err);
       });
   };
+
   const addItem = (name, price) => {
     if (name && price) {
       createProduct(name, price).then(() => {
@@ -35,6 +36,7 @@ export default function Products() {
       });
     }
   };
+
   const deleteItem = (event, id) => {
     event.stopPropagation();
     deleteProduct(id).then(() => {

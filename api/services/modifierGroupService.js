@@ -1,4 +1,5 @@
 import ModifierGroup from "../models/modifierGroup.model";
+import Modifier from "../models/modifier.model";
 
 const { default: axios } = require("axios");
 
@@ -132,14 +133,13 @@ export const getModifiersForModifierGroup = async (id) => {
     }
 };
 
-export const createModifierForModifierGroup = async (id, name, priceDiff, modifierId) => {
+export const createModifierForModifierGroup = async (modifierId, name, priceDiff) => {
     try {
         const response = await axios.post(
-            `${API_BASE_URL}/${ROUTE}/${id}/modifiers`,
+            `${API_BASE_URL}/${ROUTE}/${modifierId}/modifiers`,
             {
                 name: name,
                 priceDiff: priceDiff,
-                modifierId: modifierId,
             }
         );
         return new Modifier(response.id, response.name, response.priceDiff, response.modifierGroupId);
@@ -152,7 +152,7 @@ export const createModifierForModifierGroup = async (id, name, priceDiff, modifi
 export const deleteModifierForModifierGroup = async (id, modifierId) => {
     try {
         const response = await axios.delete(
-            `${API_BASE_URL}/${ROUTE}/${id}/items/${modifierId}`
+            `${API_BASE_URL}/${ROUTE}/${id}/modifiers/${modifierId}`
         );
         return true;
     } catch (error) {

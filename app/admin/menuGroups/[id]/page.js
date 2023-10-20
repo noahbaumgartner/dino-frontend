@@ -16,7 +16,7 @@ import {
 } from "@/api/services/menuGroupService";
 import { getProducts } from "@/api/services/productService";
 
-export default function SingleProductGroup({ params }) {
+export default function SingleMenuGroup({ params }) {
   const [menuGroup, setMenuGroup] = useState(false);
   const [menuGroupItems, setMenuGroupItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -85,6 +85,10 @@ export default function SingleProductGroup({ params }) {
     });
   };
 
+  const pickColor = (id) => {
+
+  }
+
   useEffect(() => {
     loadMenuGroup();
     loadMenuGroupItems();
@@ -121,6 +125,7 @@ export default function SingleProductGroup({ params }) {
             columnClasses={["text-center", "text-left"]}
             columnWidths={["40px", "200px"]}
             items={menuGroupItems}
+            pickColor={pickColor}
             deleteItem={deleteMenuGroupItem}
             hiddenAttribute={true}
           />

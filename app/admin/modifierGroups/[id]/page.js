@@ -13,9 +13,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
 import Input from "@/components/input";
-import { getProducts } from "@/api/services/productService";
 import { ItemTable } from "@/components/itemtable";
-import { getModifierGroup, getModifiersForModifierGroup, putModifierGroup } from "@/api/services/modifierGroupService";
+import { createModifierForModifierGroup, deleteModifierForModifierGroup, getModifierGroup, getModifiersForModifierGroup, putModifierGroup } from "@/api/services/modifierGroupService";
 
 export default function SingleProductGroup({ params }) {
   const [modifierGroup, setModifierGroup] = useState(false);
@@ -51,10 +50,20 @@ export default function SingleProductGroup({ params }) {
     }
   };
 
+  const addItem = (name, priceDiff) => {
+    if (name) {
+      createModifierForModifierGroup(params.id, name, priceDiff).then(() => {
+        setModifierName("");
+        setModifierPriceDiff(0);
+        loadModifiers();
+      });
+    }
+  };
+
   const deleteItem = (event, id) => {
     event.stopPropagation();
-    deleteModifier(id).then(() => {
-      loadItems();
+    deleteModifierForModifierGroup(params.id, id).then(() => {
+      loadModifiers();
     });
   };
 
@@ -85,6 +94,31 @@ export default function SingleProductGroup({ params }) {
             >
               <SVG src="/change.svg" className="mr-2" />
               Ändern
+            </Button>
+          </div>
+          <div className="mb-4 md:flex">
+            <Input
+              type="text"
+              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
+              value={modifierName}
+              onChange={(value) => {
+                setModifierName(value.currentTarget.value);
+              }}
+            />
+            <Input
+              type="number"
+              className="block md:flex-1 mr-4 mb-4 md:mb-0 w-full"
+              value={modifierPriceDiff}
+              onChange={(value) => {
+                setModifierPriceDiff(value.currentTarget.value);
+              }}
+            />
+            <Button
+              onClick={() => addItem(modifierName, modifierPriceDiff)}
+              className="drop-shadow"
+            >
+              <SVG src="/add.svg" className="mr-2" />
+              Modifier hinzufügen
             </Button>
           </div>
           <ItemTable

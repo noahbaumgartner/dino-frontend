@@ -8,11 +8,8 @@ import SVG from "@/components/svg";
 import Input from "@/components/input";
 import {
   createAssignmentForProduct,
-  createModifierForProduct,
   deleteAssignmentForProduct,
-  deleteModifierForProduct,
   getAssignmentsForProduct,
-  getModifiersForProduct,
   getProduct,
   putProduct,
 } from "@/api/services/productService";
