@@ -1,17 +1,17 @@
 "use client";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import Loader from "@/components/loader";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
-import Input from "@/components/input";
+import Input from "@/components/admin/input";
 import {
   getSpace,
   patchSpaceName,
   patchSpacePlan,
 } from "@/api/services/SpaceService";
-import PlanTable from "@/components/plantable";
+import PlanTable from "@/components/admin/plantable";
 
 export default function SingleSpace({ params }) {
   const [space, setSpace] = useState(false);

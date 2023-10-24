@@ -1,11 +1,11 @@
 "use client";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import Loader from "@/components/loader";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
-import Input from "@/components/input";
+import Input from "@/components/admin/input";
 import {
   createAssignmentForProduct,
   deleteAssignmentForProduct,
@@ -13,13 +13,14 @@ import {
   getProduct,
   putProduct,
 } from "@/api/services/productService";
-import { ItemTable } from "@/components/itemtable";
+import { ItemTable } from "@/components/admin/itemtable";
 import { getModifierGroups } from "@/api/services/modifierGroupService";
 
 export default function SingleProductGroup({ params }) {
   const [product, setProduct] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const [modifierGroups, setModifierGroups] = useState([]);
   const router = useRouter();
 
@@ -47,22 +48,31 @@ export default function SingleProductGroup({ params }) {
     getModifierGroups(params.id).then(modifierGroups => {
       getAssignmentsForProduct(params.id).then(assignments => {
         modifierGroups.forEach(modifierGroup => {
-          if (assignments.includes(product.id)) modifierGroup.setAssigned(true);
+          if (assignments.includes(modifierGroup.id)) modifierGroup.setAssigned(true);
         });
         setModifierGroups(modifierGroups);
       });
     });
   };
 
+  const searchAssignments = (searchTerm, modifierGroups) => {
+    modifierGroups.forEach((modifierGroup) => {
+      if (!searchTerm || modifierGroup.name.includes(searchTerm))
+        modifierGroup.setHidden(false);
+      else modifierGroup.setHidden(true);
+    });
+    return modifierGroups;
+  };
+
   const assignItem = (id) => {
     createAssignmentForProduct(params.id, id).then(() => {
-      loadProductAssignments();
+      loadModifierGroups();
     });
   };
 
   const unassignItem = (id) => {
     deleteAssignmentForProduct(params.id, id).then(() => {
-      loadProductAssignments();
+      loadModifierGroups();
     });
   };
 
@@ -105,14 +115,27 @@ export default function SingleProductGroup({ params }) {
               Ändern
             </Button>
           </div>
+          <Input
+            type="text"
+            placeholder="Suchen"
+            className="block md:flex-1 mb-4 w-full"
+            value={searchTerm}
+            onChange={(value) => {
+              setSearchTerm(value.currentTarget.value);
+              setModifierGroups(
+                searchAssignments(value.currentTarget.value, modifierGroups)
+              );
+            }}
+          />
           <ItemTable
-            columns={["id", "name"]}
-            columnNames={["#", "Modifier-Gruppe"]}
-            columnClasses={["text-center", "text-left"]}
-            columnWidths={["40px", "200px"]}
+            columns={["name"]}
+            columnNames={["Modifier-Gruppe"]}
+            columnClasses={["text-left"]}
+            columnWidths={["200px"]}
             assignItem={assignItem}
             unassignItem={unassignItem}
             items={modifierGroups}
+            hiddenAttribute={true}
           />
         </div>
       )}

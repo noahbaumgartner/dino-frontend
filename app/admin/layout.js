@@ -1,4 +1,4 @@
-import Sidenav from "@/components/sidenav";
+import Sidenav from "@/components/admin/sidenav";
 
 export const metadata = {
   title: "Admin | Dino",

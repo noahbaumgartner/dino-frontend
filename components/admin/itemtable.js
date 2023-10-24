@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Button from "./button";
-import SVG from "./svg";
+import SVG from "../svg";
 
 function Table({ children, className }) {
   return (
@@ -120,7 +120,7 @@ export function ItemTable({
                       onClick={() => pickColor(item.id)}
                     >
                       <SVG src="/colorPalette.svg" className="mr-2" />
-                      <span className="h-3 w-3 bg-[#234253] rounded-full inline-block"></span>
+                      <span className="h-2.5 w-2.5 bg-[#234253] rounded-full inline-block"></span>
                     </Button>
                   ) : null}
                   {assignItem && unassignItem ? (

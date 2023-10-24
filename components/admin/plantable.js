@@ -1,6 +1,6 @@
 import Button from "./button";
-import Paragraph from "./Paragraph";
-import SVG from "./svg";
+import Paragraph from "./paragraph";
+import SVG from "../svg";
 
 function Table({ children, className }) {
   return (
@@ -123,9 +123,8 @@ export default function PlanTable({
               <ColumnSelectorField
                 key={index}
                 onClick={() => selectColumn(index)}
-                className={`border-b-2 ${
-                  index != plan[0].length - 1 ? "border-r-2" : null
-                }`}
+                className={`border-b-2 ${index != plan[0].length - 1 ? "border-r-2" : null
+                  }`}
               />
             ))}
           </TableRow>
@@ -139,35 +138,30 @@ export default function PlanTable({
               {line.map((value, columnIndex) => (
                 <InputField
                   key={columnIndex}
-                  className={`${
-                    columnIndex != line.length - 1 ? "border-r-2" : null
-                  } 
+                  className={`${columnIndex != line.length - 1 ? "border-r-2" : null
+                    } 
                   ${rowIndex != plan.length - 1 ? "border-b-2" : null}
                   ${value === "X" ? "bg-black text-black" : null}
-                  ${
-                    inactivePattern.test(value)
+                  ${inactivePattern.test(value)
                       ? "bg-gray-600 text-white"
                       : null
-                  }
-                  ${
-                    (selector == 0 && selectorIndex == columnIndex) ||
-                    (selector == 1 && selectorIndex == rowIndex)
+                    }
+                  ${(selector == 0 && selectorIndex == columnIndex) ||
+                      (selector == 1 && selectorIndex == rowIndex)
                       ? "bg-gray-200"
                       : null
-                  }`}
+                    }`}
                   inputClassName={`
                   ${value === "X" ? "bg-black text-black" : null}
-                  ${
-                    inactivePattern.test(value)
+                  ${inactivePattern.test(value)
                       ? "bg-gray-600 text-white"
                       : null
-                  }
-                  ${
-                    (selector == 0 && selectorIndex == columnIndex) ||
-                    (selector == 1 && selectorIndex == rowIndex)
+                    }
+                  ${(selector == 0 && selectorIndex == columnIndex) ||
+                      (selector == 1 && selectorIndex == rowIndex)
                       ? "bg-gray-200"
                       : null
-                  }`}
+                    }`}
                   value={value}
                   onKeyUp={() => setFieldValue(event, columnIndex, rowIndex)}
                 />

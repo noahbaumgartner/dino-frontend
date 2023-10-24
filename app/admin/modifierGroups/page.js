@@ -1,11 +1,11 @@
 "use client";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
-import Input from "@/components/input";
-import { ItemTable } from "@/components/itemtable";
+import Input from "@/components/admin/input";
+import { ItemTable } from "@/components/admin/itemtable";
 import { createModifierGroup, deleteModifierGroup, getModifierGroups } from "@/api/services/modifierGroupService";
 
 export default function ModifierGroups() {
@@ -67,10 +67,10 @@ export default function ModifierGroups() {
             </Button>
           </div>
           <ItemTable
-            columns={["id", "name"]}
-            columnNames={["#", "Modifier-Gruppe"]}
-            columnClasses={["text-center", "text-left"]}
-            columnWidths={["40px", "200px"]}
+            columns={["name"]}
+            columnNames={["Modifier-Gruppe"]}
+            columnClasses={["text-left"]}
+            columnWidths={["200px"]}
             items={items}
             onClickRoute="admin/modifierGroups/"
             deleteItem={deleteItem}

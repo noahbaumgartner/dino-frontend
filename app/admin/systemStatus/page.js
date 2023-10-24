@@ -1,6 +1,6 @@
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 
 export default function SystemStatus() {
   return (

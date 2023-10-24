@@ -72,15 +72,7 @@ export const getAssignmentsForProduct = async (id) => {
         const response = await axios.get(
             `${API_BASE_URL}/${ROUTE}/${id}/modifierGroupAssignments`
         );
-        const mappedData = response.data.map(
-            (element) =>
-                new Modifier(
-                    element.id,
-                    element.name,
-                    element.priceDiff,
-                    element.ProductId
-                )
-        );
+        const mappedData = response.data.map((element) => element.ModifierGroupId);
 
         return mappedData;
     } catch (error) {

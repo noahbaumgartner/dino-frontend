@@ -1,7 +1,7 @@
 "use client";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
 import {
@@ -9,8 +9,8 @@ import {
   deleteProduct,
   getProducts,
 } from "@/api/services/productService";
-import Input from "@/components/input";
-import { ItemTable } from "@/components/itemtable";
+import Input from "@/components/admin/input";
+import { ItemTable } from "@/components/admin/itemtable";
 
 export default function Products() {
   const [items, setItems] = useState(false);
@@ -81,10 +81,10 @@ export default function Products() {
             </Button>
           </div>
           <ItemTable
-            columns={["id", "name", "price"]}
-            columnNames={["#", "Produkt", "Preis"]}
-            columnClasses={["text-center", "text-left", "text-right"]}
-            columnWidths={["40px", "200px", "350px"]}
+            columns={["name", "price"]}
+            columnNames={["Produkt", "Preis"]}
+            columnClasses={["text-left", "text-right"]}
+            columnWidths={["200px", "350px"]}
             items={items}
             onClickRoute="admin/products/"
             deleteItem={deleteItem}

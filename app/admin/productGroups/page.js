@@ -4,13 +4,13 @@ import {
   createProductGroup,
   deleteProductGroup,
 } from "@/api/services/productGroupService";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
-import Input from "@/components/input";
-import { ItemTable } from "@/components/itemtable";
+import Input from "@/components/admin/input";
+import { ItemTable } from "@/components/admin/itemtable";
 
 export default function ProductGroups() {
   const [items, setItems] = useState(false);
@@ -69,10 +69,10 @@ export default function ProductGroups() {
             </Button>
           </div>
           <ItemTable
-            columns={["id", "name"]}
-            columnNames={["#", "Produkt-Gruppe"]}
-            columnClasses={["text-center", "text-left"]}
-            columnWidths={["40px", "200px"]}
+            columns={["name"]}
+            columnNames={["Produkt-Gruppe"]}
+            columnClasses={["text-left"]}
+            columnWidths={["200px"]}
             items={items}
             onClickRoute="admin/productGroups/"
             deleteItem={deleteItem}

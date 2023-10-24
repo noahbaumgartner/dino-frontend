@@ -1,8 +1,8 @@
 "use client";
 import { exportDatabase, importDatabase } from "@/api/services/databaseService";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useRef } from "react";
 
 export default function Database() {

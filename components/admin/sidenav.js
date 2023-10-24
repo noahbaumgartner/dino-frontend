@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Button from "./button";
-import SVG from "./svg";
+import SVG from "../svg";
 
 function Header({ closeOnClick }) {
   return (

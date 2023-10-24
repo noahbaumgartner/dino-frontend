@@ -1,4 +1,4 @@
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 
 export default function Statistic() {
   return (

@@ -1,12 +1,12 @@
 "use client";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import Loader from "@/components/loader";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
-import Input from "@/components/input";
-import { ItemTable } from "@/components/itemtable";
+import Input from "@/components/admin/input";
+import { ItemTable } from "@/components/admin/itemtable";
 import {
   createItemForMenuGroup,
   deleteItemForMenuGroup,
@@ -120,10 +120,10 @@ export default function SingleMenuGroup({ params }) {
           </div>
           <ItemTable
             className="mb-4"
-            columns={["id", "name"]}
-            columnNames={["#", "Menü-Gruppen-Position"]}
-            columnClasses={["text-center", "text-left"]}
-            columnWidths={["40px", "200px"]}
+            columns={["name"]}
+            columnNames={["Menü-Gruppen-Position"]}
+            columnClasses={["text-left"]}
+            columnWidths={["200px"]}
             items={menuGroupItems}
             pickColor={pickColor}
             deleteItem={deleteMenuGroupItem}
@@ -140,10 +140,10 @@ export default function SingleMenuGroup({ params }) {
             }}
           />
           <ItemTable
-            columns={["id", "name"]}
-            columnNames={["#", "Produkt"]}
-            columnClasses={["text-center", "text-left"]}
-            columnWidths={["40px", "200px"]}
+            columns={["name"]}
+            columnNames={["Produkt"]}
+            columnClasses={["text-left"]}
+            columnWidths={["200px"]}
             items={products}
             addItem={addMenuGroupItem}
             hiddenAttribute={true}

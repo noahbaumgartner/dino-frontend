@@ -1,16 +1,16 @@
 "use client";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import Loader from "@/components/loader";
-import Input from "@/components/input";
+import Input from "@/components/admin/input";
 import {
   createPrintTemplate,
   deletePrintTemplate,
   getPrintTemplates,
 } from "@/api/services/printTemplateService";
-import { ItemTable } from "@/components/itemtable";
+import { ItemTable } from "@/components/admin/itemtable";
 
 export default function PrintTemplates() {
   const [items, setItems] = useState(false);
@@ -69,10 +69,10 @@ export default function PrintTemplates() {
             </Button>
           </div>
           <ItemTable
-            columns={["id", "name"]}
-            columnNames={["#", "Vorlage"]}
-            columnClasses={["text-center", "text-left"]}
-            columnWidths={["40px", "200px"]}
+            columns={["name"]}
+            columnNames={["Vorlage"]}
+            columnClasses={["text-left"]}
+            columnWidths={["200px"]}
             items={items}
             onClickRoute="admin/printTemplates/"
             deleteItem={deleteItem}

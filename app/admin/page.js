@@ -1,9 +1,9 @@
 "use client";
 
-import Button from "@/components/button";
-import Paragraph from "@/components/Paragraph";
+import Button from "@/components/admin/button";
+import Paragraph from "@/components/admin/paragraph";
 import SVG from "@/components/svg";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useRouter } from "next/navigation";
 
 export default function Admin() {

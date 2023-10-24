@@ -6,14 +6,14 @@ import {
   getProductGroup,
   putProductGroup,
 } from "@/api/services/productGroupService";
-import Button from "@/components/button";
+import Button from "@/components/admin/button";
 import Loader from "@/components/loader";
-import Title from "@/components/title";
+import Title from "@/components/admin/title";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SVG from "@/components/svg";
-import Input from "@/components/input";
-import { ItemTable } from "@/components/itemtable";
+import Input from "@/components/admin/input";
+import { ItemTable } from "@/components/admin/itemtable";
 import { createModifierForModifierGroup, deleteModifierForModifierGroup, getModifierGroup, getModifiersForModifierGroup, putModifierGroup } from "@/api/services/modifierGroupService";
 
 export default function SingleProductGroup({ params }) {
@@ -122,10 +122,10 @@ export default function SingleProductGroup({ params }) {
             </Button>
           </div>
           <ItemTable
-            columns={["id", "name", "priceDiff"]}
-            columnNames={["#", "Modifier", "Preis-Differenz"]}
-            columnClasses={["text-center", "text-left", "text-right"]}
-            columnWidths={["40px", "200px", "350px"]}
+            columns={["name", "priceDiff"]}
+            columnNames={["Modifier", "Preis-Differenz"]}
+            columnClasses={["text-left", "text-right"]}
+            columnWidths={["200px", "350px"]}
             items={modifiers}
             deleteItem={deleteItem}
           />
