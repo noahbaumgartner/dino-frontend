@@ -8,7 +8,7 @@ import SVG from "../svg";
 function Header({ closeOnClick }) {
   return (
     <li className="flex">
-      <span className="font-bold flex-1 items-center py-2 text-black">
+      <span className="font-medium flex-1 items-center py-2 text-black font-header">
         🦖 Dino Admin
       </span>
       <Button onClick={closeOnClick} square={true}>

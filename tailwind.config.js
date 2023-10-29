@@ -15,6 +15,9 @@ module.exports = {
         "2xl": "16rem",
       },
     },
+    fontFamily: {
+      header: ["Unbounded", "sans-serif"],
+    }
   },
   plugins: [],
 };
